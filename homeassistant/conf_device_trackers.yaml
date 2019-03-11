@@ -1,0 +1,18 @@
+# ASUSWRT
+# ASUSWRT moved to component
+# OwnTracks
+# OwnTracks moved to component
+- platform: asuswrt
+  interval_seconds: 15
+  consider_home: 300
+  track_new_devices: false
+  hide_if_away: false
+
+- platform: bluetooth_tracker
+  interval_seconds: 15
+  device_id: 1
+
+- platform: bluetooth_le_tracker
+  device_id: 0
+  interval_seconds: 3600
+  consider_home: 7200

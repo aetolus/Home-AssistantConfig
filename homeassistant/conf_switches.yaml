@@ -1,0 +1,25 @@
+# WIN10 - WOL
+- platform: wake_on_lan
+  name: "WIN10"
+  mac_address: "2c-4d-54-eb-34-55"
+  host: 10.0.0.182
+  turn_off:
+    service: shell_command.shutdown_win10_02
+
+# Holman iWater
+- platform: command_line
+  switches:
+    sprinkler:
+      friendly_name: "Sprinkler"
+      command_on: 'gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 01000020'
+      command_off: 'gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 00000000'
+
+- platform: xiaomi_miio
+  name: 'Xiaomi_iPhone_Work'
+  host: 10.0.0.206
+  token: b702e901869ecdb53703edb6ffaaee00
+
+- platform: xiaomi_miio
+  name: 'Xiaomi_PC'
+  host: 10.0.0.205
+  token: a434dff83d8085515563fefe5fb9dd1b

@@ -1,0 +1,15 @@
+ha_dockermon_restart_homeassistant:
+  sequence:
+    - service: rest_command.restart_homeassistant
+
+ha_dockermon_restart_appdaemon:
+  sequence:
+    - service: rest_command.restart_appdaemon
+
+restart_router:
+  sequence:
+    - service: shell_command.reboot_router
+
+restart_win10:
+  sequence:
+    - service: shell_command.reboot_win10

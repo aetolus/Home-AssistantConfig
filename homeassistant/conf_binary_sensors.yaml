@@ -1,0 +1,158 @@
+# Network Connection
+- platform: ping
+  name: connection_internet
+  host: 10.20.22.97
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_network
+  host: 10.0.0.1
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_netgear
+  host: 10.0.0.2
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_ae_downstairs
+  host: 10.0.0.3
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_ae_upstairs
+  host: 10.0.0.4
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_chromecast_upstairs
+  host: 10.0.0.104
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_chromecast_masterbedroom
+  host: 10.0.0.105
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_win10
+  host: 10.0.0.181
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_harmonyhub
+  host: 10.0.0.200
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_hue
+  host: 10.0.0.202
+  count: 4
+  scan_interval: 60
+
+- platform: ping
+  name: connection_xiaomi_gateway
+  host: 10.0.0.203
+  count: 4
+  scan_interval: 60  
+
+- platform: ping
+  name: connection_xiaomi_ir
+  host: 10.0.0.204
+  count: 4
+  scan_interval: 60
+
+- platform: rest
+  name: homeassistant
+  resource: http://127.0.0.1:8126/container/homeassistant
+  value_template: '{{ value_json.state }}'
+
+- platform: template
+  sensors:
+
+# House Proximity
+    proximity_kyle:
+      value_template: >
+        {% if "km" in states.sensor.travel_kyle.attributes.distance %}
+          {{ (states.sensor.travel_kyle.attributes.distance | replace("k","") | replace("m","") | float) < 6 }}
+        {% elif "k" not in states.sensor.travel_kyle.attributes.distance %}
+          {{ (states.sensor.travel_kyle.attributes.distance | replace("m","") | float) < 6000 }}
+        {% endif %}
+
+    proximity_sarah:
+      value_template: >
+        {% if "km" in states.sensor.travel_sarah.attributes.distance %}
+          {{ (states.sensor.travel_sarah.attributes.distance | replace("k","") | replace("m","") | float) < 6 }}
+        {% elif "k" not in states.sensor.travel_sarah.attributes.distance %}
+          {{ (states.sensor.travel_sarah.attributes.distance | replace("m","") | float) < 6000 }}
+        {% endif %}
+
+# Motion Sensing
+    aeotec_motion:
+      device_class: motion
+      value_template: '{{ is_state("sensor.aeotec_zw100_multisensor_6_burglar", "8") }}'
+
+# Motion Sensing (Battery Save - Even out off times)
+# Aeotec
+    lighting_motion_aeotec:
+      device_class: motion
+      value_template: '{{ is_state("sensor.aeotec_zw100_multisensor_6_burglar", "8") }}'
+      delay_off:
+        minutes: 15
+
+# Xiaomi
+    lighting_motion_xiaomi_kitchen:
+      device_class: motion
+      value_template: '{{ is_state("binary_sensor.xiaomi_motion_kitchen", "on") }}'
+      delay_off:
+        minutes: 28
+
+    lighting_motion_xiaomi_upstairs:
+      device_class: motion
+      value_template: '{{ is_state("binary_sensor.xiaomi_motion_upstairs", "on") }}'
+      delay_off:
+        minutes: 28
+# Combine
+    lighting_motion_downstairs:
+      device_class: motion
+      value_template: '{{ is_state("sensor.aeotec_zw100_multisensor_6_burglar", "8") or is_state("binary_sensor.xiaomi_motion_kitchen", "on") }}'
+
+# Plex
+    plex_playing:
+      value_template: '{{ (states.sensor.tautulli.state | float) > 0 }}'
+
+# Bayesian Presence
+- platform: bayesian
+  prior: 0.5
+  name: 'presence_kyle_home'
+  probability_threshold: 0.9
+  observations:
+    - entity_id: 'device_tracker.kyle_phone'
+      prob_given_true: 0.9
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.kyle_phone_bt'
+      prob_given_true: 0.9
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.kyle_phone_wifi'
+      prob_given_true: 0.9
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.kyle_watch_wifi'
+      prob_given_true: 0.9
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'home'

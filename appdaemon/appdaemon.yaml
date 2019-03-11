@@ -1,0 +1,21 @@
+appdaemon:
+  threads: 20
+  plugins:
+    HASS:
+      type: hass
+      ha_url: http://127.0.0.1:8123
+      token: !secret token
+    MQTT:
+      type: mqtt
+      namespace: mqtt
+      #verbose: true
+      client_id: appdaemon
+      client_user: !secret mqtt_username
+      client_password: !secret mqtt_password
+      client_topics:
+        - notifications/newmsg/#
+
+hadashboard:
+  dash_url: http://10.0.0.254:5001
+  dash_dir: /home/homeassistant/.homeassistant/conf_appdaemon/HADashboard
+  dash_force_compile: 1

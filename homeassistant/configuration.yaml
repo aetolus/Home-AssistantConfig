@@ -1,0 +1,246 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: !secret home_name
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret home_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Australia/Melbourne
+  # Customisations
+  customize: !include conf_customize.yaml
+  # Whitelist external directory to send image via telegram
+  whitelist_external_dirs:
+    - /var/lib/motion
+  # Auth Providers
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+    - type: legacy_api_password
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables the config editor
+config:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  api_password: !secret http_password
+  trusted_networks:
+    - 127.0.0.1
+    - 10.0.0.0/24
+    - 60.240.247.113
+    - ::1
+  base_url: !secret base_url
+  ip_ban_enabled: True
+  login_attempts_threshold: 3
+  use_x_forwarded_for: True
+  trusted_proxies: 
+    - 127.0.0.1
+    - 10.0.0.254
+  cors_allowed_origins:
+    - https://reformedreality.com
+    - http://reformedreality.com  
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - harmony
+    - sabnzbd
+
+camera:
+  - platform: mjpeg
+    name: pseye_stream
+    mjpeg_url: http://10.0.0.254:8081
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Philips Hue Lights
+emulated_hue:
+  host_ip: 10.0.0.254
+  off_maps_to_on_domains:
+    - script
+    - scene
+  expose_by_default: false
+  exposed_domains:
+    - switch
+    - script
+    - scene
+    - group
+
+# Google Calendar
+google:
+  client_id: !secret gcal_id
+  client_secret: !secret gcal_secret
+  track_new_calendar: false
+
+# Enables support for tracking state changes over time.
+history:
+
+hue:
+  bridges:
+    - host: 10.0.0.202
+      allow_unreachable: true
+
+# IFTTT
+ifttt:
+  key: !secret ifttt_password
+
+# View all events in a logbook
+logbook:
+  include:
+    domains:
+      - binary_sensor
+      - device_tracker
+      - group
+      - input_select
+      - input_boolean
+      - light
+      - sensor
+      - switch
+  exclude:
+    entities:
+      - sensor.time
+      - sensor.IndependentReserve_ETH
+      - sensor.btcmarkets_xrp
+      - sensor.kraken_xrp
+      - sensor.last_boot
+
+# Logging info
+logger:
+  default: warn
+  logs:
+    #homeassistant.components.asuswrt: debug
+    #homeassistant.components.binary_sensor: debug
+    #homeassistant.components.device_tracker: debug
+    #homeassistant.components.alexa.smart_home: warn
+    homeassistant.components.media_player: critical
+    homeassistant.components.sensor: error
+    homeassistant.loader: error
+    #custom_components.sensor.hue_sensors: info
+    custom_components.sensor.jemenaoutlook: critical
+    #custom_components.media_player.alexa: warn
+    pytautulli: critical
+
+# Include Scripts
+alexa: !include conf_alexa.yaml
+automation: !include automations.yaml
+automation old: !include_dir_merge_list conf_automations
+binary_sensor: !include conf_binary_sensors.yaml
+device_tracker: !include conf_device_trackers.yaml
+group: !include conf_groups.yaml
+input_boolean: !include conf_input_boolean.yaml
+input_number: !include conf_input_number.yaml
+input_select: !include conf_input_select.yaml
+media_player: !include conf_media_players.yaml
+mqtt: !include conf_mqtt.yaml
+notify: !include conf_notifications.yaml
+rest_command: !include conf_rest_command.yaml
+scene: !include conf_scenes.yaml
+script: !include_dir_merge_named conf_scripts
+sensor: !include conf_sensors.yaml
+shell_command: !include conf_shell.yaml
+switch: !include conf_switches.yaml
+variable: !include conf_variables.yaml
+
+#ios:
+cast:
+sonos:
+
+influxdb:
+  host: 10.0.0.254
+  database: homeassistant
+
+recorder:
+  purge_interval: 1
+  purge_keep_days: 7
+  
+remote:
+  - platform: harmony
+    name: LivingRoom
+    host: 10.0.0.200
+  - platform: xiaomi_miio
+    name: "masterbedroom"
+    host: 10.0.0.204
+    token: '1cf6a98678a09a539bb17540cb1c97f1'
+    slot: 1
+    timeout: 30
+    hidden: false
+    commands:
+      masterbedroom_climate_cool_on:
+        command:
+          - raw:Z6UDAZoBAAC2BAAAPQYAAN8MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjAAAQABAAAAAQEAAAABAQAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAQEBAQEBAQEAAAEAAAAAAAAAAAEBAAABAAAAAQABAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAEAAAEAAA
+      masterbedroom_climate_off:
+        command:
+          - raw:Z6VzAJoBAAC5BAAAQQYAAN0MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjAAAQABAAAAAQEAAAABAQAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAQAAAAAAAAEAAQEBAQEBAA
+
+# Track the sun
+sun:
+
+telegram_bot:
+  - platform: webhooks
+    api_key: !secret telegram_apikey
+    parse_mode: html
+    allowed_chat_ids:
+      - !secret telegram_chatid
+
+# Voice
+tts:
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_access
+    aws_secret_access_key: !secret aws_secret
+    region_name: 'eu-west-1'
+    cache: true
+    text_type: ssml
+    voice: Joanna
+
+# Enables checking home-assistant.io for updates
+updater:
+  reporting: false
+
+# Xiaomi
+xiaomi_aqara:
+  discovery_retry: 10
+  gateways:
+    - mac: 78:11:DC:A4:7E:8B
+      key: 9yf0d8tnwnzqejlu
+
+zone:
+  name: 'Home'
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 100
+  icon: mdi:home
+
+zone 2:
+  name: !secret zone2_name
+  latitude: !secret zone2_latitude
+  longitude: !secret zone2_longitude
+  radius: 100
+
+zwave:
+  usb_path: /dev/ttyACM0
+
+asuswrt:
+  host: 10.0.0.1
+  port: 22022
+  username: !secret asus_username
+  password: !secret asus_password
+
+owntracks:
+  max_gps_accuracy: 100
+
+lovelace:
+  mode: yaml
+
+homekit:
+
+system_health:

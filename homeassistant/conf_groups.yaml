@@ -1,0 +1,28 @@
+announcements:
+  name: 'Announcements'
+  entities:
+    - binary_sensor.xiaomi_door_garage_exterior
+    - input_boolean.call_dishwasher
+    - input_boolean.call_washing
+
+kyle:
+  entities:
+    - device_tracker.kyle_phone
+    - device_tracker.kyle_phone_wifi
+    - device_tracker.kyle_phone_bt
+
+sarah:
+  entities:
+    - device_tracker.sarah_phone
+    - device_tracker.sarah_phone_wifi
+    - device_tracker.sarah_phone_bt
+
+people:
+  entities:
+    - group.kyle
+    - group.sarah
+
+proximity:
+  entities:
+    - binary_sensor.proximity_kyle
+    - binary_sensor.proximity_sarah

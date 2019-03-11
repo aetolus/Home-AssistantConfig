@@ -1,0 +1,54 @@
+#xy_color: [0.3812,0.3794]
+
+echo_harmony_tv:
+  sequence:
+    - service: mqtt.publish 
+      data_template:
+        topic: 'livingroom/tv'
+        payload: >
+          {% if requested_state == 'off' %}
+            Off
+          {% else %}
+            TV
+          {% endif %}
+
+echo_harmony_netflix:
+  sequence:
+    - service: mqtt.publish 
+      data_template:
+        topic: 'livingroom/tv'
+        payload: >
+          {% if requested_state == 'off' %}
+            Off
+          {% else %}
+            Netflix
+          {% endif %}
+
+echo_harmony_plex:
+  sequence:
+    - service: mqtt.publish 
+      data_template:
+        topic: 'livingroom/tv'
+        payload: >
+          {% if requested_state == 'off' %}
+            Off
+          {% else %}
+            Plex
+          {% endif %}
+    - condition: state
+      entity_id: 'binary_sensor.connection_win10'
+      state: 'off'
+    - service: switch.turn_on
+      entity_id: switch.win10
+
+echo_harmony_youtube:
+  sequence:
+    - service: mqtt.publish 
+      data_template:
+        topic: 'livingroom/tv'
+        payload: >
+          {% if requested_state == 'off' %}
+            Off
+          {% else %}
+            YouTube
+          {% endif %}

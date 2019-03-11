@@ -1,0 +1,87 @@
+######################################################################################################
+###Grandfather Clock
+######################################################################################################
+- alias: 'house_service_gfclock'
+  trigger:
+    - platform: time_pattern
+      minutes: 00
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ states.input_select.house.state != "Sleep" }}
+      - condition: template
+        value_template: >
+          {{ states.media_player.chromecast_all.state != 'playing' }}          
+      - condition: or
+        conditions:
+          - condition: time
+            after: '05:30:00'
+            before: '20:30:00'
+            weekday:
+              - mon
+              - tue
+              - wed
+              - thu
+              - fri
+          - condition: time
+            after: '08:30:00'
+            before: '20:30:00'
+            weekday:
+              - sat
+              - sun
+  action:
+    - service: media_player.turn_on
+      entity_id: media_player.chromecast_upstairs
+    - wait_template: "{{ states.media_player.chromecast_upstairs.state == 'idle' }}"
+    - service: media_player.volume_set
+      entity_id:
+        - media_player.chromecast_upstairs
+      data_template:
+        volume_level: >
+          {% if (now().strftime("%H")|int < 10) or (now().strftime("%H")|int > 19) %}
+            0.25
+          {% else %}
+            0.5
+          {% endif %}
+    - service: media_player.play_media
+      data_template:
+        entity_id:
+          - media_player.chromecast_upstairs
+        media_content_id: https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime00.wav
+        media_content_type: audio/mp4
+#          {% if now().strftime("%H")|int == 6 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime06.wav
+#          {% elif now().strftime("%H")|int == 7 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime07.wav
+#          {% elif now().strftime("%H")|int == 8 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime08.wav
+#          {% elif now().strftime("%H")|int == 9 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime09.wav
+#          {% elif now().strftime("%H")|int == 10 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime10.wav
+#          {% elif now().strftime("%H")|int == 11 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime11.wav
+#          {% elif now().strftime("%H")|int == 12 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime12.wav
+#          {% elif now().strftime("%H")|int == 13 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime01.wav
+#          {% elif now().strftime("%H")|int == 14 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime02.wav
+#          {% elif now().strftime("%H")|int == 15 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime03.wav
+#          {% elif now().strftime("%H")|int == 16 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime04.wav
+#          {% elif now().strftime("%H")|int == 17 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime05.wav
+#          {% elif now().strftime("%H")|int == 18 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime06.wav
+#          {% elif now().strftime("%H")|int == 19 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime07.wav
+#          {% elif now().strftime("%H")|int == 20 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime08.wav
+#          {% elif now().strftime("%H")|int == 21 %}
+#            https://home.tai.net.au/local/soundfiles/GFChime/GrandFatherChime09.wav
+#          {% endif %}

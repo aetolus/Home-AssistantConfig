@@ -1,0 +1,2 @@
+#!/bin/bash
+gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 00000020

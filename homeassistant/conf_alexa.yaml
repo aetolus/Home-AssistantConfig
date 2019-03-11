@@ -1,0 +1,35 @@
+smart_home:
+  endpoint: https://api.amazonalexa.com/v3/events
+  client_id: !secret alexa_client_id
+  client_secret: !secret alexa_client_secret
+  filter:
+    include_entities:
+      - light.living_room
+      - light.bedroom
+      - media_player.livingroom_tv
+      - script.echo_harmony_netflix
+      - script.echo_harmony_plex
+      - script.echo_harmony_youtube
+      - script.echo_livingroom_climatecontrol
+  entity_config:
+    light.living_room:
+      name: 'Lights'
+      display_categories: LIGHT
+    light.bedroom:
+      name: 'Bedroom Lights'
+      display_categories: LIGHT
+    media_player.livingroom_tv:
+      name: 'TV'
+      display_categories: TV
+    script.echo_harmony_netflix:
+      name: 'Netflix'
+      display_categories: TV
+    script.echo_harmony_plex:
+      name: 'Plex'
+      display_categories: TV
+    script.echo_harmony_youtube:
+      name: 'YouTube'
+      display_categories: TV
+    script.echo_livingroom_climatecontrol:
+      name: 'Thermostat'
+      display_categories: THERMOSTAT

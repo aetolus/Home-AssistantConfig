@@ -1,0 +1,93 @@
+# Apps
+calendaralarm:
+  module: calendaralarm
+  class: CalendarAlarm
+
+#cryptoarbitrage:
+#  module: cryptoarbitrage
+#  class: CryptoArbitrage
+#  constrain_input_boolean: input_boolean.crypto_arbitrage,on
+  
+helper_house:
+  module: helper_house
+  class: HouseMode
+
+helper_outdoors:
+  module: helper_outdoors
+  class: Outdoors
+
+hue_dimmer_switches:
+  module: hue_dimmer_switches
+  class: HueDimmerSwitches
+
+lighting:
+  module: lighting
+  class: Lighting
+
+livingroom_climate:
+  module: livingroom_climate
+  class: LivingRoomClimate
+
+livingroom_harmony:
+  module: livingroom_harmony
+  class: LivingRoomHarmony
+  constrain_input_select: input_select.house,Morning,Home,Away,Sleep,Vacation
+
+masterbedroom_alarm:
+  module: masterbedroom_alarm
+  class: MasterBedroomAlarm
+  constrain_input_boolean: input_boolean.masterbedroom_service_alarm,on
+
+masterbedroom_climate:
+  module: masterbedroom_climate
+  class: MasterBedroomClimate
+
+misc:
+  module: misc
+  class: Miscellaneous
+
+notification_engine:
+  module: notification_engine
+  class: NotificationEngine
+
+notifications:
+  module: notifications
+  class: Notifications
+
+presence:
+  module: presence
+  class: Presence
+
+#security_motion:
+#  module: security_motion
+#  class: Motion
+#  constrain_input_select: input_select.house,Away
+
+security_system:
+  module: security_system
+  class: SecuritySystem
+
+service_download:
+  module: service_download
+  class: ServiceDownload
+
+telegram:
+  module: telegram
+  class: Telegram
+
+test:
+  module: test
+  class: Test 
+
+sprinkler:
+  module: sprinkler
+  class: Sprinkler
+
+utilities:
+  module: utilities
+  class: Utilities
+
+vacation:
+  module: vacation
+  class: Vacation
+  constrain_input_select: input_select.house,Vacation

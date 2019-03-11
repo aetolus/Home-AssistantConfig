@@ -1,0 +1,38 @@
+livingroom_climate:
+  name: 'Climate'
+  initial: 'Auto'
+  options:
+    - 'Off'
+    - 'Auto'
+    - '18'
+    - '19'
+    - '20'
+    - '21'
+    - '22'
+    - '23'
+    - '24'
+    - '25'
+    - '26'
+    - '27'
+    - '28'
+    - '29'
+    - '30'
+
+bedroom_climate:
+  name: 'Climate'
+  options:
+    - 'Off'
+    - 'Cool'
+    - 'Heat'
+
+house:
+  name: 'House Mode'
+  initial: 'Initializing'
+  options:
+    - 'Initializing'
+    - 'Morning'
+    - 'Home'
+    - 'Sleep'
+    - 'Away'
+    - 'Vacation'
+  icon: mdi:home

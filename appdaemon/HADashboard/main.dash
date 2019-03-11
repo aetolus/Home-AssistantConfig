@@ -1,0 +1,82 @@
+#
+# Main arguments, all optional
+#
+title: Main Panel
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 8
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+layout:
+  - clock(2x1), weather(2x2), kyle_presence(2x1), sarah_presence(2x1)
+  - house_mode(2x1), thermostat_setting(2x1), harmony_activity(2x1)
+  - sensor.aeotec_zw100_multisensor_6_temperature, light.living_room, sensor.room_master_climate, light.bedroom, input_boolean.security_system_state, input_boolean.guest_mode, input_boolean.call_garage_door, input_boolean.call_dishwasher
+  - house_morning(2x1), house_home(2x1), house_sleep(2x1), house_away(2x1)
+
+clock:
+  widget_type: clock
+  time_format: 24hr
+
+weather:
+  widget_type: weather
+  units: "&deg;C"
+
+kyle_presence:
+  widget_type: device_tracker
+  title: Kyle
+  device: kyle_phone
+  title_style: "font-size: 150%;"
+  text_style: "font-size: 200%;"
+
+sarah_presence:
+  widget_type: device_tracker
+  title: Sarah
+  device: sarah_phone
+  title_style: "font-size: 150%;"
+  text_style: "font-size: 200%;"
+
+house_mode:
+  widget_type: sensor
+  title: House Mode
+  entity: input_select.house
+  title_style: "font-size: 150%;"
+  text_style: "font-size: 200%;"
+
+thermostat_setting:
+  widget_type: sensor
+  title: Thermostat
+  entity: input_select.livingroom_climatecontrol
+  script: script.livingroom_climate
+  title_style: "font-size: 150%;"
+  text_style: "font-size: 200%;"
+
+harmony_activity:
+  widget_type: sensor
+  title: Harmony
+  entity: input_select.harmony_activities
+  title_style: "font-size: 150%;"
+  text_style: "font-size: 200%;"
+
+house_morning:
+  widget_type: binary_sensor
+  title: Morning
+  entity: binary_sensor.hadashboard_morning
+
+house_home:
+  widget_type: binary_sensor
+  title: Home
+  entity: binary_sensor.hadashboard_home
+
+house_sleep:
+  widget_type: binary_sensor
+  title: Sleep
+  entity: binary_sensor.hadashboard_sleep
+
+house_away:
+  widget_type: binary_sensor
+  title: Away
+  entity: binary_sensor.hadashboard_away

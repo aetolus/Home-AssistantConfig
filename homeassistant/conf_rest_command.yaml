@@ -1,0 +1,13 @@
+sabnzbd_speedlimit_on:
+  url: 'https://dl.tai.net.au/api?mode=config&name=speedlimit&value=512K&apikey=9e60232a302bceb5a0f37ce058410758'
+  method: 'post'
+
+sabnzbd_speedlimit_off:
+  url: 'https://dl.tai.net.au/api?mode=config&name=speedlimit&value=2048K&apikey=9e60232a302bceb5a0f37ce058410758'
+  method: 'post'
+
+restart_homeassistant:
+  url: 'http://127.0.0.1:8126/container/homeassistant/restart'
+
+restart_appdaemon:
+  url: 'http://127.0.0.1:8126/container/appdaemon/restart'

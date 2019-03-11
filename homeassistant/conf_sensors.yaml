@@ -1,0 +1,302 @@
+# Weather Prediction
+- platform: darksky
+  api_key: !secret darksky_api
+  forecast:
+    - 0
+  monitored_conditions:
+  - summary
+  - hourly_summary
+  - apparent_temperature_low
+  - apparent_temperature_high
+  - icon
+  - precip_type
+  - precip_probability
+  - precip_intensity
+  - humidity
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+
+# Travel Time Sensors
+- platform: google_travel_time
+  name: 'travel_kyle'
+  api_key: !secret google_api
+  origin: device_tracker.kyle_phone
+  destination: !secret home_address
+  options:
+    departure_time: 'now'
+    traffic_model: 'pessimistic'
+    avoid: 'tolls'  
+
+- platform: google_travel_time
+  name: 'travel_sarah'
+  api_key: !secret google_api
+  origin: device_tracker.sarah_phone
+  destination: !secret home_address
+  options:
+    departure_time: 'now'
+    traffic_model: 'pessimistic'
+    avoid: 'tolls'
+
+- platform: template
+  sensors:
+    alarm_time:
+      friendly_name: 'Alarm Time'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int) }}'
+
+    media_player_livingroom_tv_source:
+      friendly_name: 'LG TV'
+      value_template: >
+        {% if "off" in states.media_player.livingroom_tv.state %}
+          {{ states.media_player.livingroom_tv.state }}
+        {% elif "HDMI2" in states.media_player.livingroom_tv.attributes.source %}
+          Playstation
+        {% elif "playing" in states.media_player.livingroom_tv.state %}
+          {{ states.media_player.livingroom_tv.attributes.source }}
+        {% endif %}
+
+    on_off_livingroom_tv:
+      friendly_name: 'On/Off - LG TV'
+      value_template: >
+        {% if "off" in states.media_player.livingroom_tv.state %}
+          0
+        {% elif "playing" in states.media_player.livingroom_tv.state %}
+          1
+        {% endif %}
+
+    on_off_livingroom_thermostat:
+      friendly_name: 'On/Off - Livingroom Thermostat'
+      value_template: >
+        {% if "Off" in states.sensor.mqtt_livingroom_climate_setting.state %}
+          0
+        {% else %}
+          1
+        {% endif %}
+
+    on_off_livingroom_win10:
+      friendly_name: 'On/Off - WIN10'
+      value_template: >
+        {% if "off" in states.binary_sensor.connection_win10.state %}
+          0
+        {% else %}
+          1
+        {% endif %}
+
+    battery_aeotec_zw100_multisensor_6:
+      friendly_name: 'Aeotec Multisensor 6'
+      unit_of_measurement: "%"
+      value_template: '{{ states.zwave.aeotec_zw100_multisensor_6.attributes.battery_level }}'
+
+    battery_xiaomi_door_front:
+      friendly_name: 'Xiaomi Front Door'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_door_front.attributes.battery_level }}'
+
+    battery_xiaomi_door_garage_exterior:
+      friendly_name: 'Xiaomi Exterior Garage Door'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_door_garage_exterior.attributes.battery_level }}'
+
+    battery_xiaomi_door_garage_interior:
+      friendly_name: 'Xiaomi Interior Garage Door'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_door_garage_interior.attributes.battery_level }}'
+
+    battery_xiaomi_door_sliding:
+      friendly_name: 'Xiaomi Sliding Door'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_door_sliding.attributes.battery_level }}'
+
+    battery_xiaomi_motion_kitchen:
+      friendly_name: 'Xiaomi Motion Sensor Kitchen'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_motion_kitchen.attributes.battery_level }}'
+
+    battery_xiaomi_motion_upstairs:
+      friendly_name: 'Xiaomi Motion Sensor Upstairs'
+      unit_of_measurement: "%"
+      value_template: '{{ states.binary_sensor.xiaomi_motion_upstairs.attributes.battery_level }}'
+
+# Scrape
+- platform: scrape
+  resource: 'http://www.metrotrains.com.au/lines/craigieburn'
+  name: travel_train_craigieburn
+  select: 'a[href="#tab4"]'
+
+# Upstairs Temperature Monitor
+- platform: command_line
+  name: room_master_climate
+  command: 'TEMP=$(curl -s http://10.0.0.201); echo "$TEMP" > /config/sensors/room_master_climate; awk "NR==6" /config/sensors/room_master_climate'
+  unit_of_measurement: '°C'
+  scan_interval: 300
+
+# Check for Home-Assistant Updates
+- platform: command_line
+  name: latest_ha_version
+  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+  scan_interval: 3600
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_use_percent
+    - type: processor_use
+    - type: last_boot
+
+- platform: worldtidesinfo
+  api_key: !secret worldtidesinfo_api
+  latitude: "-38.333"
+  longitude: "144.317"
+  scan_interval: 14400
+
+- platform: google_geocode
+  name: google_geocode_kyle
+  origin: device_tracker.kyle_phone
+
+- platform: google_geocode
+  name: google_geocode_sarah
+  origin: device_tracker.sarah_phone
+
+- platform: mqtt
+  name: 'mqtt_motion'
+  state_topic: "notifications/motion"
+  expire_after: 5
+
+- platform: mqtt
+  name: 'mqtt_livingroom_climate_setting'
+  state_topic: "livingroom/climate"
+
+- platform: mqtt
+  name: 'mqtt_livingroom_tv'
+  state_topic: "livingroom/tv"
+  expire_after: 5
+
+- platform: hue
+# May need to change to hue_sensors on upgrade to >= 0.89*
+
+- platform: life360
+  name: life360_kyle
+  username: !secret life360_username_kyle
+  password: !secret life360_password_kyle
+  mqtt_topic: "life360/kyle"
+  scan_interval: 30
+
+- platform: life360
+  name: life360_sarah
+  username: !secret life360_username_sarah
+  password: !secret life360_password_sarah
+  mqtt_topic: "life360/sarah"
+  scan_interval: 30
+
+- platform: mqtt
+  state_topic: "owntracks/acurus/phone"
+  name: "life360_acurus_battery"
+  unit_of_measurement: "%"
+  value_template: '{{ value_json.batt | round() }}'
+
+- platform: mqtt
+  state_topic: "owntracks/acurus/phone"
+  name: "life360_acurus_charging"
+  value_template: >
+    {% if value_json.charging == 0 %}
+      Discharging
+    {% elif value_json.charging == 1 %}
+      Charging
+    {% endif %}
+
+- platform: mqtt
+  state_topic: "owntracks/kyle/phone"
+  name: "life360_kyle_battery"
+  unit_of_measurement: "%"
+  value_template: '{{ value_json.batt | round() }}'
+
+- platform: mqtt
+  state_topic: "owntracks/kyle/phone"
+  name: "life360_kyle_charging"
+  value_template: >
+    {% if value_json.charging == 0 %}
+      Discharging
+    {% elif value_json.charging == 1 %}
+      Charging
+    {% endif %}
+
+- platform: mqtt
+  state_topic: "owntracks/sarah/phone"
+  name: "life360_sarah_battery"
+  unit_of_measurement: "%"
+  value_template: '{{ value_json.batt | round() }}'
+
+- platform: mqtt
+  state_topic: "owntracks/sarah/phone"
+  name: "life360_sarah_charging"
+  value_template: >
+    {% if value_json.charging == 0 %}
+      Discharging
+    {% elif value_json.charging == 1 %}
+      Charging
+    {% endif %}
+
+- platform: uptime
+  unit_of_measurement: days
+
+#- platform: independentreserve_eth
+#- platform: kraken_xrp
+#- platform: btcmarkets_xrp
+
+- platform: rest
+  name: 'ha_dockermon_homeassistant'
+  resource: http://127.0.0.1:8126/container/homeassistant
+  value_template: '{{value_json.state}}'
+
+- platform: rest
+  name: 'ha_dockermon_appdaemon'
+  resource: http://127.0.0.1:8126/container/appdaemon
+  value_template: '{{value_json.state}}'
+
+- platform: rest
+  name: 'ha_dockermon_influxdbgrafana'
+  resource: http://127.0.0.1:8126/container/influxdb-grafana
+  value_template: '{{value_json.state}}'
+
+- platform: rest
+  name: 'ha_dockermon_nginxletsencrypt'
+  resource: http://127.0.0.1:8126/container/nginx-letsencrypt
+  value_template: '{{value_json.state}}'
+
+- platform: rest
+  name: 'ha_dockermon_mqtt'
+  resource: http://127.0.0.1:8126/container/mqtt
+  value_template: '{{value_json.state}}'    
+
+- platform: rest
+  name: 'ha_dockermon_syncthing'
+  resource: http://127.0.0.1:8126/container/syncthing
+  value_template: '{{value_json.state}}'   
+
+- platform: jemenaoutlook
+  username: kyle@tai.net.au
+  password: r6xfdRc5f04N
+  monitored_variables:
+    - supply_charge
+    - single_rate_cost
+    - yesterday_cost_total
+    - yesterday_consumption
+    - yesterday_suburb_average
+    - previous_day_consumption
+
+- platform: bom
+  station: 'IDV60901.95866'
+  monitored_conditions:
+    - apparent_t
+    - cloud
+    - rain_trace
+    - rel_hum
+    - weather
+
+- platform: tautulli
+  api_key: c4b62b152eeb4f488859f493363a0832
+  host: 10.0.0.254
+  scan_interval: 1

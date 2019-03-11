@@ -1,0 +1,34 @@
+call_dishwasher:
+  name: 'Dishwasher'
+
+call_washing:
+  name: 'Washing Machine'  
+
+camera_motion:
+
+guest_mode:
+  name: 'Guest Mode'
+
+masterbedroom_service_alarm:
+  name: 'Alarm'
+
+scheduled_download:
+  name: 'Downloading'
+
+security_system_state:
+  name: 'Security System'
+  initial: 'off'
+
+speech_notifications:
+  name: 'Speech Notifications'
+
+echoscript:
+  name: 'Dummy Echo Switch'
+  initial: 'off'
+
+test:
+  name: 'Test Input'
+
+trigger_masterbedroom_service_alarm_on:
+
+trigger_sprinker_rain:

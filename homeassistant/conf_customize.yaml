@@ -1,0 +1,263 @@
+binary_sensor.connection_internet:
+  friendly_name: 'Internet'
+
+binary_sensor.connection_network:
+  friendly_name: 'DSL-AC68U'
+  
+binary_sensor.connection_netgear:
+  friendly_name: 'Netgear EVG2000'
+  
+binary_sensor.connection_ae_downstairs:
+  friendly_name: 'Airport Express: Downstairs'
+  
+binary_sensor.connection_ae_upstairs:
+  friendly_name: 'Airport Express: Upstairs'
+
+binary_sensor.connection_lg_surroundsound:
+  friendly_name: 'LG: Surround Sound'
+  
+binary_sensor.connection_chromecast_surroundsound:
+  friendly_name: 'Chromecast: Surround Sound'
+  
+binary_sensor.connection_chromecast_upstairs:
+  friendly_name: 'Chromecast: Upstairs'
+  
+binary_sensor.connection_chromecast_masterbedroom:
+  friendly_name: 'Chromecast: Master Bedroom'
+  
+binary_sensor.connection_chromecast_downstairs:
+  friendly_name: 'Chromecast: Downstairs'
+
+binary_sensor.connection_win10:
+  friendly_name: 'Windows 10'
+  
+binary_sensor.connection_harmonyhub:
+  friendly_name: 'Harmony Hub'
+  
+binary_sensor.connection_hue:
+  friendly_name: 'Philips Hue Hub'
+
+binary_sensor.connection_xiaomi_gateway:
+  friendly_name: 'Xiaomi Gateway'
+
+binary_sensor.connection_xiaomi_ir:
+  friendly_name: 'Xiaomi IR'
+
+binary_sensor.xiaomi_door_front:
+  friendly_name: 'Front Door'
+  device_class: door
+
+binary_sensor.xiaomi_door_sliding:
+  friendly_name: 'Sliding Door'
+  device_class: door
+
+binary_sensor.xiaomi_door_garage_interior:
+  friendly_name: 'Interior Garage Door'
+  device_class: door
+
+binary_sensor.xiaomi_door_garage_exterior:
+  friendly_name: 'Exterior Garage Door'
+  device_class: door
+
+binary_sensor.aeotec_motion:
+  friendly_name: 'Motion: Livingroom'
+  device_class: motion
+  homebridge_visible: true
+
+binary_sensor.xiaomi_motion_kitchen:
+  friendly_name: 'Motion: Kitchen'
+  device_class: 'motion'
+  homebridge_visible: true
+
+binary_sensor.xiaomi_motion_upstairs:
+  friendly_name: 'Motion: Staircase'
+  device_class: motion
+  homebridge_visible: true
+
+input_boolean.masterbedroom_service_alarm:
+  icon: mdi:alarm
+
+group.livingroom_lights_plex:
+  icon: mdi:lightbulb
+
+group.all_automations:
+  friendly_name: 'All Automations'
+
+group.all_scripts:
+  friendly_name: 'All Scripts'
+
+group.people:
+  friendly_name: 'Presence'
+
+input_boolean.guest_mode:
+  icon: mdi:account-multiple
+
+input_boolean.scheduled_download:
+  icon: mdi:cloud-download
+
+input_boolean.security_system_state:
+  icon: mdi:eye
+
+input_boolean.speech_notifications:
+  emulated_hue_hidden: false
+  emulated_hue_name: "Speech Notifications"
+  icon: mdi:volume-high
+
+light.upstairs:
+  friendly_name: 'Upstairs'  
+
+script.ha_dockermon_restart_homeassistant:
+  friendly_name: 'Restart HomeAssistant'  
+
+script.ha_dockermon_restart_appdaemon:
+  friendly_name: 'Restart AppDaemon'  
+
+script.restart_router:
+  friendly_name: 'Restart Router'    
+
+script.restart_win10:
+  friendly_name: 'Restart Win10'  
+
+light.living_room:
+  homebridge_visible: true
+  homebridge_name: "Lights"
+
+sensor.aeotec_zw100_multisensor_6_temperature:
+  friendly_name: 'Temperature'
+  icon: mdi:thermometer
+
+sensor.bom_feels_like_c:
+  friendly_name: 'Outside Temperature'
+
+sensor.dark_sky_daytime_high_apparent_temperature_0:
+  friendly_name: 'Daily High Temperature'
+
+sensor.dark_sky_overnight_low_apparent_temperature_0:
+  friendly_name: 'Daily Low Temperature'
+
+sensor.dark_sky_hourly_summary:
+  friendly_name: 'Summary'
+
+sensor.google_geocode_kyle:
+  friendly_name: 'Kyle'
+  entity_picture: https://home.tai.net.au/local/entity_pictures/kyle.jpg
+
+sensor.google_geocode_sarah:
+  friendly_name: 'Sarah'
+  entity_picture: https://home.tai.net.au/local/entity_pictures/sarah.jpg
+
+sensor.ha_dockermon_appdaemon:
+  friendly_name: 'AppDaemon'
+
+sensor.ha_dockermon_homeassistant:
+  friendly_name: 'HomeAssistant'  
+
+sensor.ha_dockermon_influxdbgrafana:
+  friendly_name: 'InfluxDB & Grafana'
+
+sensor.ha_dockermon_nginxletsencrypt:
+  friendly_name: 'nginx'
+
+sensor.ha_dockermon_mqtt:
+  friendly_name: 'MQTT'
+  
+sensor.ha_dockermon_syncthing:
+  friendly_name: 'SyncThing'
+
+sensor.media_player_livingroom_tv_source:
+  icon: mdi:television-box
+
+sensor.mqtt_livingroom_climate_setting:
+  friendly_name: 'Current Setting:'
+  icon: mdi:thermometer
+
+sensor.room_master_climate:
+  friendly_name: 'Temperature'
+  icon: mdi:thermometer
+
+sensor.travel_car_source_hm_destination_home:
+  friendly_name: 'H&M to Home'
+  icon: mdi:car
+
+sensor.travel_car_source_home_destination_hm:
+  friendly_name: 'Home to H&M'
+  icon: mdi:car
+
+sensor.travel_train_craigieburn:
+  friendly_name: 'Craigieburn Line'
+  icon: mdi:train
+
+sensor.life360_kyle_battery:
+  friendly_name: 'Phone - Kyle'
+  icon: mdi:battery-80
+
+sensor.life360_sarah_battery:
+  friendly_name: 'Phone - Sarah'
+  icon: mdi:battery-80
+
+sensor.battery_aeotec_zw100_multisensor_6:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_door_front:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_door_sliding:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_door_garage_interior:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_door_garage_exterior:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_motion_kitchen:
+  icon: mdi:battery-80
+
+sensor.battery_xiaomi_motion_upstairs:
+  icon: mdi:battery-80
+
+sensor.jemenaoutlook_supply_charge:
+  friendly_name: 'Energy Australia: Supply Charge'
+
+sensor.jemenaoutlook_single_rate_cost:
+  friendly_name: 'Energy Australia: Rate Cost'
+
+sensor.jemenaoutlook_yesterday_cost_total:
+  friendly_name: "Electricity: Yesterday's Cost"
+
+sensor.jemenaoutlook_yesterday_consumption:
+  friendly_name: "Electricity: Yesterday's Consumption"
+
+sensor.jemenaoutlook_previous_day_consumption:
+  friendly_name: "Electricity: Previous Day's Consumption"
+
+sensor.jemenaoutlook_yesterday_suburb_average:
+  friendly_name: "Electricity: Yesterday's Consumption - Suburb Average"
+
+switch.sprinkler:
+  assumed_state: false
+  emulated_hue_hidden: false
+  emulated_hue_name: "Sprinkler"
+  icon: mdi:water-pump
+
+switch.win10:
+  icon: mdi:desktop-tower
+  friendly_name: 'Computer'
+
+zone.home:
+  friendly_name: 'Home'
+
+zone.anytime_fitness:
+  friendly_name: 'Gym'
+
+script.hacp_harmony_tv:
+  friendly_name: 'TV'
+
+script.hacp_harmony_netflix:
+  friendly_name: 'Netflix'
+
+script.hacp_harmony_plex:
+  friendly_name: 'Plex'
+
+script.hacp_harmony_youtube:
+  friendly_name: 'YouTube'  

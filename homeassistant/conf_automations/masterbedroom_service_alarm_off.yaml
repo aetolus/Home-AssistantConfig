@@ -1,0 +1,16 @@
+- alias: 'masterbedroom_service_alarm_off'
+  trigger:
+   - platform: state
+     entity_id: light.master_bedroom_lamp_1_kyle
+     from: "on"
+     to: "off"
+  condition:
+    - condition: state
+      entity_id: input_boolean.trigger_masterbedroom_service_alarm_on
+      state: "on"
+  action:
+    - service: media_player.turn_off
+      entity_id:
+        - media_player.chromecast_masterbedroom
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.trigger_masterbedroom_service_alarm_on

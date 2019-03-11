@@ -1,0 +1,22 @@
+- cal_id: kylefrasernz@gmail.com
+  entities:
+  - device_id: kyle
+    name: kylefrasernz@gmail.com
+    track: true
+- cal_id: 1g4lcbn5oug28vmubovh1kkg4o@group.calendar.google.com
+  entities:
+  - device_id: sarahs_training
+    name: Sarah's Training
+    track: false
+
+- cal_id: '#contacts@group.v.calendar.google.com'
+  entities:
+  - device_id: contacts
+    name: Contacts
+    track: false
+
+- cal_id: en.australian#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_australia
+    name: Holidays in Australia
+    track: false

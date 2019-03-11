@@ -1,0 +1,9 @@
+# LG TV Downstairs
+  - platform: webostv
+    host: 10.0.0.101
+    name: "livingroom_tv"
+
+# Telegram
+  - platform: telegram
+    name: telegram
+    chat_id: !secret telegram_chatid

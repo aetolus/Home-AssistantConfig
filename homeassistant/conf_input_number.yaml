@@ -1,0 +1,14 @@
+### Alarm Clock ###
+###
+
+alarm_hours:
+  name: Hour
+  min: 0
+  max: 23
+  step: 1
+
+alarm_minutes:
+  name: Minutes
+  min: 0
+  max: 55
+  step: 5

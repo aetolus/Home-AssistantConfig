@@ -1,0 +1,67 @@
+- id: '1530518198668'
+  alias: homeassistant_system_state
+  trigger:
+  - above: '90'
+    entity_id: sensor.disk_use_percent_home
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      payload: Disk usage is above 90%.
+      topic: notifications/newmsg/telegram
+    service: mqtt.publish
+- id: '1536456686825'
+  alias: battery_phone_acurus_charge
+  trigger:
+  - below: '30'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  - below: '20'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  - below: '10'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  - below: '5'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  condition:
+  - condition: state
+    entity_id: sensor.life360_acurus_charging
+    state: Discharging
+  action:
+  - data:
+      entity_id: switch.xiaomi_iphone_work
+    service: switch.turn_on
+- id: '1536457238498'
+  alias: battery_phone_acurus_discharge
+  trigger:
+  - above: '90'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  - above: '95'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  - above: '98'
+    entity_id: sensor.life360_acurus_battery
+    platform: numeric_state
+  condition:
+  - condition: state
+    entity_id: sensor.life360_acurus_charging
+    state: Charging
+  action:
+  - data:
+      entity_id: switch.xiaomi_iphone_work
+    service: switch.turn_off
+- id: '1548932057144'
+  alias: notify_win10_powered_on
+  trigger:
+  - entity_id: switch.win10
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - data:
+      payload: WIN10 has been powered on.
+      topic: notifications/newmsg/telegram
+    service: mqtt.publish
