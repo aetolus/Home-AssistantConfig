@@ -16,8 +16,8 @@ class Outdoors(hass.Hass):
         # Rain Check
         self.listen_state(self.sprinkler_rain_check, entity='sensor.dark_sky_precip', new='rain')
         self.listen_state(self.sprinkler_rain_check, entity='sensor.dark_sky_precip', old='rain', duration=86400)
-        # Run Sprinkler at 4:15am
-        self.run_daily(self.sprinkler_on, datetime.time(4, 15, 0), constrain_days = "mon,thu")
+        # Run Sprinkler at 4:00am
+        self.run_daily(self.sprinkler_on, datetime.time(4, 0, 0), constrain_days = "mon,thu")
 
     def sprinkler_rain_check(self, entity, attribute, old, new, kwargs):
         if new == 'rain':

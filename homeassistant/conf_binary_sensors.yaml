@@ -121,10 +121,11 @@
       value_template: '{{ is_state("binary_sensor.xiaomi_motion_upstairs", "on") }}'
       delay_off:
         minutes: 28
+
 # Combine
     lighting_motion_downstairs:
       device_class: motion
-      value_template: '{{ is_state("sensor.aeotec_zw100_multisensor_6_burglar", "8") or is_state("binary_sensor.xiaomi_motion_kitchen", "on") }}'
+      value_template: '{{ is_state("binary.sensor.lighting_motion_aeotec", "on") or is_state("binary_sensor.lighting_motion_xiaomi_kitchen", "on") }}'
 
 # Plex
     plex_playing:

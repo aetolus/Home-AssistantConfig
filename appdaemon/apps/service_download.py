@@ -16,8 +16,7 @@ class ServiceDownload(hass.Hass):
             self.run_in(self.download_on, seconds=0)
         self.run_daily(self.download_on, datetime.time(14, 00, 0))
         self.run_daily(self.download_off, datetime.time(16, 00, 0))
-        self.listen_state(self.power_on_pc, entity='sensor.media_player_livingroom_tv_source', new='Plex', constrain_input_select='input_select.house,Morning,Home')
-        self.listen_state(self.power_off_pc, entity='remote.livingroom', attribute='current_activity', old='TV', constrain_input_select='input_select.house,Morning,Home')
+        #self.listen_state(self.power_on_pc, entity='sensor.media_player_livingroom_tv_source', new='Plex', constrain_input_select='input_select.house,Morning,Home')
         
     def download_on(self, kwargs):
         self.call_service('homeassistant/turn_on', entity_id='input_boolean.scheduled_download')
@@ -57,9 +56,3 @@ class ServiceDownload(hass.Hass):
         if self.get_state(entity='binary_sensor.connection_win10') == 'off':
             self.call_service('switch/turn_on', entity_id='switch.win10')
             self.call_service("mqtt/publish", topic='notifications/newmsg', payload='Powering on Plex server now, please wait a moment.')
-
-    def power_off_pc(self, entity, attribute, old, new, kwargs):
-        if self.now_is_between("14:00:00", "15:59:59"):
-            return
-        self.call_service('switch/turn_off', entity_id='switch.win10')
-        self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Activity changed from TV, powering off WIN10')

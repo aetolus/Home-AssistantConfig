@@ -5,7 +5,7 @@ import time
 class Sprinkler(hass.Hass):
     
     def initialize(self):
-        self.run_daily(self.record_rainfall, datetime.time(23, 00, 0))
+        self.run_daily(self.record_rainfall, datetime.time(23, 45, 0))
 
     def record_rainfall(self, kwargs):
         self.utilities = self.get_app('utilities')

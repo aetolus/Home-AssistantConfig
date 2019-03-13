@@ -77,6 +77,7 @@ views:
         entities:
           - binary_sensor.aeotec_motion
           - binary_sensor.xiaomi_motion_kitchen
+          - binary_sensor.lighting_motion_downstairs
           - binary_sensor.xiaomi_motion_upstairs
           - binary_sensor.xiaomi_door_front
           - binary_sensor.xiaomi_door_sliding

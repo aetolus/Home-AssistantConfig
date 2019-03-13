@@ -53,15 +53,3 @@
   - data:
       entity_id: switch.xiaomi_iphone_work
     service: switch.turn_off
-- id: '1548932057144'
-  alias: notify_win10_powered_on
-  trigger:
-  - entity_id: switch.win10
-    from: 'off'
-    platform: state
-    to: 'on'
-  action:
-  - data:
-      payload: WIN10 has been powered on.
-      topic: notifications/newmsg/telegram
-    service: mqtt.publish

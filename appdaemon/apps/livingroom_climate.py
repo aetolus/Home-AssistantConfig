@@ -59,13 +59,8 @@ class LivingRoomClimate(hass.Hass):
         # Set variable 'mode'
         if inside_temp > desired_temp:# and outside_temp > desired_temp:
             mode = 'cool'
-            self.call_service('variable/set_variable', variable='notify_climate_powersave', value='cool')
         elif inside_temp < desired_temp:# and outside_temp < desired_temp:
             mode = 'heat'
-            self.call_service('variable/set_variable', variable='notify_climate_powersave', value='heat')
-        #elif inside_temp > desired_temp and outside_temp < desired_temp or inside_temp < desired_temp and outside_temp > desired_temp:
-            #mode = 'powersave'
-            #self.call_service('variable/set_variable', variable='notify_climate_powersave', value='powersave')
         else:
             mode = 'off'
         self.log('Mode set to: ' + mode)
@@ -75,8 +70,6 @@ class LivingRoomClimate(hass.Hass):
             setting = 'cool_' + str(desired_temp)[:-2]
         elif mode == 'heat' and inside_temp < lower_tolerance:
             setting = 'heat_' + str(desired_temp)[:-2]
-        #elif mode == 'powersave':
-            #setting = 'Off'
         else:
             setting = 'Off'
         self.log('Setting is: ' + setting)
@@ -94,16 +87,10 @@ class LivingRoomClimate(hass.Hass):
 
         if inside_temp > 25: #and outside_temp > 25:
             mode = 'cool'
-            self.call_service('variable/set_variable', variable='notify_climate_powersave', value='cool')
         elif high_temp > 35:
             mode = 'cool'
-            self.call_service('variable/set_variable', variable='notify_climate_powersave', value='cool')
         elif inside_temp < 21: #and outside_temp < 18:
             mode = 'heat'
-            self.call_service('variable/set_variable', variable='notify_climate_powersave', value='heat')
-        #elif inside_temp > 25 and outside_temp < 21 or inside_temp < 21 and outside_temp > 24:
-            #mode = 'powersave'
-            #self.call_service('variable/set_variable', variable='notify_climate_powersave', value='powersave')
         else:
             mode = 'off'
         self.log('Mode set to: ' + mode)

@@ -14,5 +14,4 @@
 
 - platform: bluetooth_le_tracker
   device_id: 0
-  interval_seconds: 3600
-  consider_home: 7200
+  interval_seconds: 247

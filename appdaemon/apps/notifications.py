@@ -1,5 +1,6 @@
 import appdaemon.plugins.hass.hassapi as hass
 import datetime
+import localvars
 
 #
 # EXAMPLE appdaemon.yaml entry below
@@ -22,28 +23,28 @@ class Notifications(hass.Hass):
         self.listen_state(self.train_travel, entity='sensor.travel_train_craigieburn')
         # Welcome Home
         self.listen_state(self.welcome_home_start, entity='input_select.house', old='Away', new='Home')
-        #Cooling/Heating Powersave
-        self.listen_state(self.cooling_heating_powersave, entity='variable.notify_climate_powersave')
+        # Notify WIN10 on/off
+        self.listen_state(self.win10, entity='switch.win10')
 
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
-        if entity == 'input_select.house' and self.get_state('variable.notify_morning_update') == '0':
+        if entity == 'input_select.house' and localvars.Notify_Morning_Update == '0':
             self.log("Morning update enabled. Waiting for motion upstairs")
-            self.call_service('variable/set_variable', variable='notify_morning_update', value='1')
-        elif self.get_state('variable.notify_morning_update') == '1':
+            localvars.Notify_Morning_Update = '1'
+        elif localvars.Notify_Morning_Update == '1':
             self.log("Motion detected upstairs. Waiting for motion downstairs.")
-            self.call_service('variable/set_variable', variable='notify_morning_update', value='2')
+            localvars.Notify_Morning_Update = '2'
 
     def morning_update_read(self, entity, attribute, old, new, kwargs):
-        if self.get_state('variable.notify_morning_update') != '2':
+        if localvars.Notify_Morning_Update != '2':
             return
         self.log("Motion detected by " + entity + ". Reading morning update.")
-        self.call_service('variable/set_variable', variable='notify_morning_update', value='0')
+        localvars.Notify_Morning_Update = '0'
         self.utilities = self.get_app('utilities')
         if self.utilities.is_weekday() == True:
-            self.call_service("mqtt/publish", topic="notifications/newmsg", payload='call: weekday_alarm')
+            self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='call: weekday_alarm')
         else:
-            self.call_service("mqtt/publish", topic="notifications/newmsg", payload='call: weekend_alarm')
+            self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='call: weekend_alarm')
 
     # Notify about new HomeAssistant Updates
     def ha_updates(self, entity, attribute, old, new, kwargs):
@@ -57,12 +58,16 @@ class Notifications(hass.Hass):
             return
 
         if self.now_is_between("04:30:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
+            if self.get_state('group.kyle') == 'home':
+                topic = 'notifications/newmsg/tts'
+            else:
+                topic = 'notifications/newmsg/telegram'
             if 'Alert' in new:
-                self.call_service("mqtt/publish", topic="notifications/newmsg", payload="There is currently a " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic=topic, payload="There is currently a " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
             elif 'Delays' in new:
-                self.call_service("mqtt/publish", topic="notifications/newmsg", payload="There are currently " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
             elif new == "Good service":
-                self.call_service("mqtt/publish", topic="notifications/newmsg", payload="Good service has been restored on the Cragieburn line.")
+                self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
             if 'Alert' in new:
@@ -105,19 +110,19 @@ class Notifications(hass.Hass):
             self.log('self.door_opened_handle does not exist')
         self.log('continued after exception')
         if self.get_state("group.announcements") == 'on' or day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
-            self.call_service("mqtt/publish", topic='notifications/newmsg', payload='call: welcome_home')
+            self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: welcome_home')
             if self.get_state("binary_sensor.xiaomi_door_garage_exterior") == 'on':
-                self.call_service("mqtt/publish", topic='notifications/newmsg', payload='call: garage_door_open')
+                self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: garage_door_open')
             if self.get_state("input_boolean.call_dishwasher") == 'on':
-                self.call_service("mqtt/publish", topic='notifications/newmsg', payload='call: dishwasher_ready')
+                self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: dishwasher_ready')
             if self.get_state("input_boolean.call_washing") == 'on':
-                self.call_service("mqtt/publish", topic='notifications/newmsg', payload='call: washing_ready')
-            if day in [0, 2, 4] and self.now_is_between("12:00:00", "23:59:59"):
-                self.call_service("mqtt/publish", topic='notifications/newmsg', payload='The animals need fresh water today.')
+                self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: washing_ready')
+            if day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
+                self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='The animals need fresh water today.')
             self.turn_off("group.announcements")
 
-    def cooling_heating_powersave(self, entity, attribute, old, new, kwargs):
-        if new == old:
-            return
-        elif new == 'powersave':
-            self.call_service("mqtt/publish", topic='notifications/newmsg', payload='Putting the thermostat into power saving mode. Try opening a window.')
+    def win10(self, entity, attribute, old, new, kwargs):
+        if old == 'off' and new == 'on':
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='WIN10 is on')
+        elif old == 'on' and new == 'off':
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='WIN10 is off')

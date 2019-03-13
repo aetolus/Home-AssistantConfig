@@ -174,7 +174,7 @@
   state_topic: "livingroom/tv"
   expire_after: 5
 
-- platform: hue
+- platform: hue_sensors
 # May need to change to hue_sensors on upgrade to >= 0.89*
 
 - platform: life360

@@ -14,7 +14,6 @@ import time
 class HouseMode(hass.Hass):
     def initialize(self):
         # Run when HomeAssistant restarts
-        self.listen_event(self.start_homeassistant, event="appd_started")
         self.listen_event(self.start_homeassistant, event="plugin_started")
         # Run House State is due to change
         self.run_daily(self.set_mode_time, datetime.time(4, 00, 0))
@@ -71,7 +70,7 @@ class HouseMode(hass.Hass):
         elif self.utilities.day_of_week() in ['Fri', 'Sat'] and self.now_is_between("09:00:00", "23:59:59"):
             self.log("Changing to Home")
             self.select_option('input_select.house', 'Home')
-        elif self.utilities.day_of_week() in ['Fri', 'Sat'] and self.now_is_between("00:00:00", "04:14:59"):
+        elif self.utilities.day_of_week() in ['Fri', 'Sat'] and self.now_is_between("00:00:00", "03:59:59"):
             self.log("Changing to Sleep")
             self.select_option('input_select.house', 'Sleep')
         self.log("HomeAssistant Restart Complete")
@@ -135,10 +134,10 @@ class HouseMode(hass.Hass):
             
     def mode_sleep(self, entity, attribute, old, new, kwargs):
         # Enabling House Mode Sleep
-        #if self.get_state(entity='light.bedroom') == 'on':
-            #self.call_service('light/turn_on', entity_id=['light.bedroom', 'light.living_room'], color_name='red', brightness_pct='40', transition='270')
-        #self.call_service("mqtt/publish", topic="livingroom/tv", payload="Off")
-        #self.call_service('rest_command/sabnzbd_speedlimit_off')
+        if self.get_state(entity='light.bedroom') == 'on':
+            self.call_service('light/turn_on', entity_id=['light.bedroom', 'light.living_room'], color_name='red', brightness_pct='40', transition='270')
+        self.call_service("mqtt/publish", topic="livingroom/tv", payload="Off")
+        self.call_service('rest_command/sabnzbd_speedlimit_off')
         self.call_service('input_boolean/turn_off', entity_id='input_boolean.speech_notifications')
 
         if self.get_state(entity='binary_sensor.plex_playing') != 'off':
@@ -155,7 +154,7 @@ class HouseMode(hass.Hass):
         if self.now_is_between("14:00:00", "16:00:00"):
             return
         elif self.get_state(entity='switch.win10') == 'on':
-            self.call_service('switch/turn_off', entity_id='switch.win10')
+            self.call_service('shell_command/sleep_win10')
 
     def mode_vacation(self, entity, attribute, old, new, kwargs):
         # Enabling House Mode Vacation

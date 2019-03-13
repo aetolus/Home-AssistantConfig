@@ -47,8 +47,8 @@ DAYS = 'days'  # type: str
 DEFAULT_NAME = 'JemenaOutlook'
 
 REQUESTS_TIMEOUT = 15
-MIN_TIME_BETWEEN_UPDATES = timedelta(hours=6)
-SCAN_INTERVAL = timedelta(hours=6)
+MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=10)
+SCAN_INTERVAL = timedelta(minutes=15)
 
 SENSOR_TYPES = {
     'yesterday_user_type': ['Yesterday user type', 'type', 'mdi:home-account'],

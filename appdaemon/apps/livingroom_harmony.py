@@ -78,7 +78,7 @@ class LivingRoomHarmony(hass.Hass):
         self.call_service('media_player/play_media', entity_id='media_player.livingroom_tv', media_content_id='70', media_content_type="channel")
 
     def livingroom_tv_volume(self, entity, attribute, old, new, kwargs):
-        if new == old or not new or not old:         
+        if new == old or not new or old == 'Joanna' or not old:         
             return
         if entity == 'media_player.livingroom_sonos' and new == 'TV':
             self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level=0.2)

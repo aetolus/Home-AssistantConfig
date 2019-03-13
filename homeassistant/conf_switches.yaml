@@ -4,7 +4,7 @@
   mac_address: "2c-4d-54-eb-34-55"
   host: 10.0.0.182
   turn_off:
-    service: shell_command.shutdown_win10_02
+    service: shell_command.shutdown_win10
 
 # Holman iWater
 - platform: command_line

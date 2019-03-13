@@ -8,7 +8,7 @@ appdaemon:
     MQTT:
       type: mqtt
       namespace: mqtt
-      #verbose: true
+      verbose: true
       client_id: appdaemon
       client_user: !secret mqtt_username
       client_password: !secret mqtt_password

@@ -3,6 +3,7 @@ import logging
 
 logging.basicConfig()
 logging.getLogger('pygatt').setLevel(logging.DEBUG)
+
 from binascii import hexlify
 
 adapter = pygatt.GATTToolBackend()
@@ -25,3 +26,9 @@ try:
                      callback=handle_data)
 finally:
     adapter.stop()
+
+# Battery handle?
+#[D5:D3:E0:82:10:BD][LE]> char-read-hnd 0x0008                                                                                                                                                                                       
+#Characteristic value/descriptor: 01 18                                                                                                                                                                                              
+#[D5:D3:E0:82:10:BD][LE]> char-read-hnd 0x0001                                                                                                                                                                                       
+#Characteristic value/descriptor: 00 18                                                                                                                                                                                              
