@@ -25,6 +25,7 @@ views:
           - sensor.media_player_livingroom_tv_source
           - sensor.tautulli
           - sensor.aeotec_zw100_multisensor_6_temperature
+          - sensor.aeotec_zw100_multisensor_6_relative_humidity
           - sensor.mqtt_livingroom_climate_setting                    
           - input_select.livingroom_climate
       - type: entities

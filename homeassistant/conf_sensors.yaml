@@ -277,8 +277,8 @@
   value_template: '{{value_json.state}}'   
 
 - platform: jemenaoutlook
-  username: kyle@tai.net.au
-  password: r6xfdRc5f04N
+  username: !secret jemena_username
+  password: !secret jemena_password
   monitored_variables:
     - supply_charge
     - single_rate_cost

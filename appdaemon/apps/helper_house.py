@@ -85,7 +85,7 @@ class HouseMode(hass.Hass):
             self.select_option('input_select.house', 'Home')
         elif new == 'not_home' and old == 'home':
             self.select_option('input_select.house', 'Away')
-        elif entity == 'group.proximity' and new == 'off' and old == 'on':
+        elif entity == 'group.proximity' and new == 'off' and old == 'on' and self.get_state(entity='group.people') == 'not_home':
             self.select_option('input_select.house', 'Away')
 
     def set_mode_time(self, kwargs):
@@ -167,9 +167,9 @@ class HouseMode(hass.Hass):
     def proximity(self, entity, attribute, old, new, kwargs):
         if self.get_state(entity='group.people') == 'home':
             if 'kyle' in entity and self.get_state('group.kyle') == 'not_home':
-                self.call_service("mqtt/publish", topic="notifications/newmsg", payload='Kyle is ' + self.get_state(entity="sensor.travel_kyle", attribute="distance") + ' from home.')
+                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Kyle is ' + self.get_state(entity="sensor.travel_kyle", attribute="distance") + ' from home.')
             elif 'sarah' in entity and self.get_state('group.sarah') == 'not_home':
-                self.call_service("mqtt/publish", topic="notifications/newmsg", payload='Sarah is ' + self.get_state(entity="sensor.travel_sarah", attribute="distance") + ' from home.')
+                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Sarah is ' + self.get_state(entity="sensor.travel_sarah", attribute="distance") + ' from home.')
             
 # Sleep Warning
 

@@ -61,9 +61,9 @@ class NotificationEngine(hass.Hass):
                 if self.get_state('group.kyle') == 'home' and self.get_state('group.sarah') != 'home':
                     self.announce(topic, "Welcome home Kyle. I have the following notifications for you:")
                 elif self.get_state('group.kyle') != 'home' and self.get_state('group.sarah') == 'home':
-                    self.announce(topic, "Welcome home Sarah. I have the following notifications for you:")
+                    self.announce(topic, "Welcome home Sarah. I have the following notifications for you - ")
                 else:
-                    self.announce(topic, "Welcome home. I have the following notifications for you:")
+                    self.announce(topic, "Welcome home. I have the following notifications for you - ")
             elif payload == 'call: garage_door_open':
                 self.announce(topic, "The garage door is currently open.")
             elif payload == 'call: dishwasher_ready':
@@ -74,6 +74,7 @@ class NotificationEngine(hass.Hass):
             self.announce(topic, payload)
 
     def announce(self, topic, payload):
+        self.log(topic + ' :: ' + payload)
         if topic == 'notifications/newmsg/alert':
             self.telegram_queue.put(payload)
             self.voice_queue.put(payload)

@@ -28,6 +28,12 @@ livingroom_climate:
   module: livingroom_climate
   class: LivingRoomClimate
 
+#livingroom_climate_1:
+#  module: livingroom_climate_1
+#  class: LivingRoomClimate
+#  auto_temp_cool: 27
+#  auto_temp_heat: 18
+
 livingroom_harmony:
   module: livingroom_harmony
   class: LivingRoomHarmony

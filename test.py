@@ -1,5 +1,6 @@
 import pygatt
 import logging
+import time
 
 logging.basicConfig()
 logging.getLogger('pygatt').setLevel(logging.DEBUG)
@@ -17,13 +18,10 @@ def handle_data(handle, value):
 
 try:
     adapter.start()
-    device = adapter.connect('d5:d3:e0:82:10:bd', 10, pygatt.BLEAddressType.random)
+    device = adapter.connect('D5:D3:E0:82:10:BD', 30, pygatt.BLEAddressType.random)
+    time.sleep(35)
+    adapter.char_write_handle(0x0014, bytearray([0x01, 0x00, 0x00, 0x20]))
 
-    characteristic = "0000f006-0000-1000-8000-00805f9b34fb"
-    device.char_write(characteristic, bytearray([0x01000015]))
-
-    device.subscribe("0000f006-0000-1000-8000-00805f9b34fb",
-                     callback=handle_data)
 finally:
     adapter.stop()
 

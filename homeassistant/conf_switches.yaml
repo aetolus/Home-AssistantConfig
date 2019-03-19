@@ -23,3 +23,6 @@
   name: 'Xiaomi_PC'
   host: 10.0.0.205
   token: a434dff83d8085515563fefe5fb9dd1b
+
+- platform: holman_iwater
+  mac_address: d5:d3:e0:82:10:bd

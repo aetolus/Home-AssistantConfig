@@ -126,6 +126,10 @@ sensor.aeotec_zw100_multisensor_6_temperature:
   friendly_name: 'Temperature'
   icon: mdi:thermometer
 
+sensor.aeotec_zw100_multisensor_6_relative_humidity:
+  friendly_name: 'Humidity'
+  icon: mdi:thermometer
+
 sensor.bom_feels_like_c:
   friendly_name: 'Outside Temperature'
 

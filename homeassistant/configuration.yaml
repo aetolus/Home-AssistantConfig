@@ -123,7 +123,7 @@ logger:
     homeassistant.components.sensor: error
     #homeassistant.loader: error
     custom_components.sensor.hue_sensors: debug
-    custom_components.sensor.jemenaoutlook: critical
+    custom_components.sensor.jemenaoutlook: info
     pytautulli: critical
 
 # Include Scripts

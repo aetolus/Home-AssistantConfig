@@ -10,6 +10,7 @@ class Sprinkler(hass.Hass):
     def record_rainfall(self, kwargs):
         self.utilities = self.get_app('utilities')
         day_of_week = self.utilities.day_of_week()
-        self.log(day_of_week)
         rainfall = self.get_state(entity='sensor.bom_rain_today')
+        self.log(day_of_week)
+        self.log(rainfall)
         self.call_service("mqtt/publish", topic="sprinkler/rainfall/" + day_of_week, payload=rainfall, retain="true")

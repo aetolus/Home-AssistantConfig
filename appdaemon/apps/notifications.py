@@ -14,7 +14,7 @@ class Notifications(hass.Hass):
     def initialize(self):
         # Morning Update
         self.listen_state(self.morning_update_enable, entity='input_select.house', old='Sleep', new='Morning')
-        self.listen_state(self.morning_update_enable, entity='binary_sensor.xiaomi_motion_upstairs', old='off', new='on', constrain_input_select='input_select.house,Morning')
+        self.listen_state(self.morning_update_motion_upstairs, entity='binary_sensor.xiaomi_motion_upstairs', old='off', new='on', constrain_input_select='input_select.house,Morning')
         self.listen_state(self.morning_update_read, entity='binary_sensor.xiaomi_motion_kitchen', old='off', new='on', constrain_input_select='input_select.house,Morning')
         self.listen_state(self.morning_update_read, entity='binary_sensor.aeotec_motion', old='off', new='on', constrain_input_select='input_select.house,Morning')
         # HomeAssistant Update Released
@@ -28,18 +28,23 @@ class Notifications(hass.Hass):
 
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
-        if entity == 'input_select.house' and localvars.Notify_Morning_Update == '0':
+        self.log("Reached morning_update_enable, localvars.Notify_Morning_Update is: " + str(localvars.Notify_Morning_Update))
+        if localvars.Notify_Morning_Update == 0:
             self.log("Morning update enabled. Waiting for motion upstairs")
-            localvars.Notify_Morning_Update = '1'
-        elif localvars.Notify_Morning_Update == '1':
+            localvars.Notify_Morning_Update = 1
+
+    def morning_update_motion_upstairs(self, entity, attribute, old, new, kwargs):
+        self.log("Reached morning_update_motion_upstairs, localvars.Notify_Morning_Update is: " + str(localvars.Notify_Morning_Update))
+        if localvars.Notify_Morning_Update == 1:
             self.log("Motion detected upstairs. Waiting for motion downstairs.")
-            localvars.Notify_Morning_Update = '2'
+            localvars.Notify_Morning_Update = 2
 
     def morning_update_read(self, entity, attribute, old, new, kwargs):
-        if localvars.Notify_Morning_Update != '2':
+        self.log("reached morning_update_read, localvars.Notify_Morning_Update is: " + str(localvars.Notify_Morning_Update))
+        if localvars.Notify_Morning_Update != 2:
             return
         self.log("Motion detected by " + entity + ". Reading morning update.")
-        localvars.Notify_Morning_Update = '0'
+        localvars.Notify_Morning_Update = 0
         self.utilities = self.get_app('utilities')
         if self.utilities.is_weekday() == True:
             self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='call: weekday_alarm')
@@ -109,7 +114,7 @@ class Notifications(hass.Hass):
         except:
             self.log('self.door_opened_handle does not exist')
         self.log('continued after exception')
-        if self.get_state("group.announcements") == 'on' or day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
+        if self.get_state("group.announcements") == 'on' or day in [0, 1, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
             self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: welcome_home')
             if self.get_state("binary_sensor.xiaomi_door_garage_exterior") == 'on':
                 self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: garage_door_open')

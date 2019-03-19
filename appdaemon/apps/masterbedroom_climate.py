@@ -31,7 +31,7 @@ class MasterBedroomClimate(hass.Hass):
         if self.now_is_between("04:00:00", "04:01:00") or self.now_is_between("18:30:00", "18:31:00"):
             if float(self.get_state("sensor.room_master_climate")) > 25:
                 self.select_option('input_select.bedroom_climate', 'Cool')
-            elif float(self.get_state("sensor.room_master_climate")) < 21:
+            elif float(self.get_state("sensor.room_master_climate")) < 15:
                 self.select_option('input_select.bedroom_climate', 'Heat')
         elif self.now_is_between("06:00:00", "06:01:00") or self.now_is_between("22:30:00", "22:31:00"):
             self.select_option('input_select.bedroom_climate', 'Off')
