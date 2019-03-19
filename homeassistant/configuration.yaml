@@ -205,8 +205,8 @@ updater:
 xiaomi_aqara:
   discovery_retry: 10
   gateways:
-    - mac: 78:11:DC:A4:7E:8B
-      key: 9yf0d8tnwnzqejlu
+    - mac: !secret xiaomi_gateway_mac
+      key: !secret xiaomi_gateway_key
 
 zone:
   name: 'Home'

@@ -14,6 +14,7 @@ appdaemon:
       client_password: !secret mqtt_password
       client_topics:
         - notifications/newmsg/#
+        - sprinkler/rainfall/#
 
 hadashboard:
   dash_url: http://10.0.0.254:5001

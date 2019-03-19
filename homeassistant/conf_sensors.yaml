@@ -239,6 +239,35 @@
       Charging
     {% endif %}
 
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Mon"
+  name: "sprinkler/rainfall/mon"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Tue"
+  name: "sprinkler/rainfall/tue"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Wed"
+  name: "sprinkler/rainfall/wed"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Thu"
+  name: "sprinkler/rainfall/thu"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Fri"
+  name: "sprinkler/rainfall/fri"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Sat"
+  name: "sprinkler/rainfall/sat"
+
+- platform: mqtt
+  state_topic: "sprinkler/rainfall/Sun"
+  name: "sprinkler/rainfall/sun"
+
+
 - platform: uptime
   unit_of_measurement: days
 

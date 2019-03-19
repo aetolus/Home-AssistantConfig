@@ -133,6 +133,9 @@ sensor.aeotec_zw100_multisensor_6_relative_humidity:
 sensor.bom_feels_like_c:
   friendly_name: 'Outside Temperature'
 
+sensor.bom_relative_humidity:
+  friendly_name: 'Relative Humidity'
+
 sensor.dark_sky_daytime_high_apparent_temperature_0:
   friendly_name: 'Daily High Temperature'
 

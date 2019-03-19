@@ -47,6 +47,7 @@ views:
           - sensor.bom_feels_like_c
           - sensor.dark_sky_daytime_high_apparent_temperature_0
           - sensor.dark_sky_overnight_low_apparent_temperature_0
+          - sensor.bom_relative_humidity
           - sun.sun
           - sensor.travel_train_craigieburn
           - sensor.dark_sky_hourly_summary

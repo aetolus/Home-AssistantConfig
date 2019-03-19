@@ -63,11 +63,11 @@ class HolmanSwitch(SwitchDevice):
 
     def turn_on(self, **kwargs):
         """Turn the device on."""
-        on_command = ['gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 01000020']
-        sp.call(on_cmd)
+        on_command = ['/usr/bin/gatttool', '-i', 'hci0', '-b', 'D5:D3:E0:82:10:BD', '-t', 'random', '--char-write-req', '-a', '0x0014', '-n', '01000020']
+        sp.call(on_command)
 
 
     def turn_off(self, **kwargs):
         """Turn the device off."""
-        off_command = ['gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 01000000']
-        sp.call(off_cmd)
+        off_command = ['/usr/bin/gatttool', '-i', 'hci0', '-b', 'D5:D3:E0:82:10:BD', '-t', 'random', '--char-write-req', '-a', '0x0014', '-n', '01000000']
+        sp.call(off_command)

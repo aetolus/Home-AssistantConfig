@@ -10,6 +10,7 @@ class LivingRoomClimate(hass.Hass):
     def initialize(self): 
         self.listen_state(self.livingroom_climate_off, entity='group.proximity', old='on', new='off')
         self.listen_state(self.livingroom_climate_off, entity='input_select.house', new='Sleep')
+        self.listen_state(self.livingroom_climate_off, entity='binary_sensor.xiaomi_door_sliding', new='on', duration=600)
         self.listen_state(self.livingroom_climate_check, entity='sensor.aeotec_zw100_multisensor_6_temperature')
         self.listen_state(self.livingroom_climate_check, entity='input_select.livingroom_climate', new='Off')
         self.listen_state(self.livingroom_climate_check, entity='group.proximity', old='off', new='on')
@@ -33,6 +34,8 @@ class LivingRoomClimate(hass.Hass):
         if self.get_state("group.proximity") == 'off' and float(self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0")) < float(30):
             return
         if self.get_state("input_select.house") == 'Sleep':
+            return
+        if self.get_state("binary_sensor.xiaomi_door_sliding") == 'on':
             return
 
         # Perform checks
