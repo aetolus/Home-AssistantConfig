@@ -87,7 +87,6 @@ class SecuritySystem(hass.Hass):
         entity = kwargs["pass_entity"]
         if self.get_state("input_select.house") != 'Away':
             return
-        self.call_service('input_boolean/turn_off', entity_id='input_boolean.speech_notifications')
         # Send alert notification
         if entity == 'binary_sensor.xiaomi_door_front':
             self.call_service("mqtt/publish", topic="notifications/newmsg/alert", payload='Front Door opened.')
@@ -103,6 +102,8 @@ class SecuritySystem(hass.Hass):
             self.call_service("mqtt/publish", topic="notifications/newmsg/alert", payload='Motion detected in the Kitchen.')
         elif entity == 'binary_sensor.xiaomi_motion_upstairs':
             self.call_service("mqtt/publish", topic="notifications/newmsg/alert", payload='Motion detected in the Staircase.')
+        # Turn off Speech
+        self.call_service('input_boolean/turn_off', entity_id='input_boolean.speech_notifications')
 
         if self.get_state(entity='input_select.house') == 'Vacation':
             return

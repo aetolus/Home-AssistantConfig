@@ -239,15 +239,9 @@ class JemenaOutlookData(object):
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
-        """Don't update if before 9am."""
-        from datetime import datetime
-        d = datetime.utcnow()
-        if d.hour > 9:
-            """Return the latest collected data from Jemena Outlook."""
-            self._fetch_data()
-            self.data = self.client.get_data()
-        else:
-            _LOGGER.info("Not updating yesterdays value as it's before 9am")
+        """Return the latest collected data from Jemena Outlook."""
+        self._fetch_data()
+        self.data = self.client.get_data()
 
 class JemenaOutlookError(Exception):
     pass

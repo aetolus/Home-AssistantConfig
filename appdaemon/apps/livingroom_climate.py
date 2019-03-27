@@ -99,11 +99,11 @@ class LivingRoomClimate(hass.Hass):
         self.log('Mode set to: ' + mode)
 
         # Reset desired_temp
-        if mode == 'cool' and inside_temp > 27.5:
+        if mode == 'cool' and inside_temp > 27.0:
             setting = 'cool_' + str(21)
         elif mode == 'cool' and high_temp > 35:
             setting = '21q'
-        elif mode == 'heat' and inside_temp < 17.5:
+        elif mode == 'heat' and inside_temp < 18.0:
             setting = 'heat_' + str(21)
         #elif mode == 'powersave':
             #setting = 'Off'

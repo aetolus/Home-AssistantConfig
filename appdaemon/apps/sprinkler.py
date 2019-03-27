@@ -6,14 +6,12 @@ class Sprinkler(hass.Hass):
     
     def initialize(self):
         self.run_daily(self.record_rainfall, datetime.time(23, 45, 0))
-        self.run_daily(self.check_rainfall, datetime.time(4, 1, 00))
+        self.run_daily(self.check_rainfall, datetime.time(4, 0, 30))
 
     def record_rainfall(self, kwargs):
         self.utilities = self.get_app('utilities')
         day_of_week = self.utilities.day_of_week()
         rainfall = self.get_state(entity='sensor.bom_rain_today')
-        self.log(day_of_week)
-        self.log(rainfall)
         self.call_service("mqtt/publish", topic="sprinkler/rainfall/" + day_of_week, payload=rainfall, retain="true")
 
     def check_rainfall(self, kwargs):
@@ -33,9 +31,8 @@ class Sprinkler(hass.Hass):
             total_rainfall = float(thursday) + float(wednesday) + float(tuesday) + float(monday)
         else:
             return
-        if total_rainfall < 3.0:
-            self.call_service('shell_command/sprinkler_on')
-        else:
+        if total_rainfall > 3.0:
+            self.log('Switching sprinkler off due to ' + str(total_rainfall) + 'mm rainfall.')
             self.call_service('shell_command/sprinkler_off')
 
 

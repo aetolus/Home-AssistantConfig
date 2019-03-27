@@ -12,10 +12,6 @@ helper_house:
   module: helper_house
   class: HouseMode
 
-helper_outdoors:
-  module: helper_outdoors
-  class: Outdoors
-
 hue_dimmer_switches:
   module: hue_dimmer_switches
   class: HueDimmerSwitches

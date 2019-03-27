@@ -20,6 +20,7 @@ class LivingRoomHarmony(hass.Hass):
         self.listen_state(self.livingroom_sonos_music, entity='media_player.livingroom_sonos', attribute='media_artist')
 
     def livingroom_harmony_start(self, entity, attribute, old, new, kwargs):
+        self.log(new)
         if new == 'unknown':
             return
         if new == 'Off':
