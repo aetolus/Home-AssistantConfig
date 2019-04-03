@@ -1,0 +1,1 @@
+/usr/local/bin/docker-compose pull --parallel && truncate -s 0 /var/lib/docker/containers/*/*-json.log && /usr/local/bin/docker-compose up -d --build

@@ -328,4 +328,4 @@
 - platform: tautulli
   api_key: c4b62b152eeb4f488859f493363a0832
   host: 10.0.0.254
-  scan_interval: 1
+  scan_interval: 0.5

@@ -126,7 +126,7 @@ class HouseMode(hass.Hass):
     def mode_home(self, entity, attribute, old, new, kwargs):
         # Enabling House Mode Home
         self.call_service('input_boolean/turn_on', entity_id='input_boolean.speech_notifications')
-        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.25')
+        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.15')
 
         if old == 'Away' or old == 'Vacation':
             livingroom_lights = self.get_app("lighting")
