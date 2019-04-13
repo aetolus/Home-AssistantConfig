@@ -136,10 +136,10 @@ sensor.bom_feels_like_c:
 sensor.bom_relative_humidity:
   friendly_name: 'Relative Humidity'
 
-sensor.dark_sky_daytime_high_apparent_temperature_0:
+sensor.dark_sky_daytime_high_apparent_temperature_0d:
   friendly_name: 'Daily High Temperature'
 
-sensor.dark_sky_overnight_low_apparent_temperature_0:
+sensor.dark_sky_overnight_low_apparent_temperature_0d:
   friendly_name: 'Daily Low Temperature'
 
 sensor.dark_sky_hourly_summary:

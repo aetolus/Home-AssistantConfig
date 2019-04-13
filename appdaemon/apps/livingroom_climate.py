@@ -31,7 +31,7 @@ class LivingRoomClimate(hass.Hass):
         # Return if any of the following are true
         if self.get_state("input_select.livingroom_climate") == 'Off':
             return
-        if self.get_state("group.proximity") == 'off' and float(self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0")) < float(30):
+        if self.get_state("group.proximity") == 'off' and float(self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0d")) < float(30):
             return
         if self.get_state("input_select.house") == 'Sleep':
             return
@@ -86,7 +86,7 @@ class LivingRoomClimate(hass.Hass):
         # Set standard variables
         inside_temp = float(self.get_state("sensor.aeotec_zw100_multisensor_6_temperature"))
         outside_temp = float(self.get_state("sensor.bom_feels_like_c"))
-        high_temp = float(self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0"))
+        high_temp = float(self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0d"))
 
         if inside_temp > 27: #and outside_temp > 25:
             mode = 'cool'

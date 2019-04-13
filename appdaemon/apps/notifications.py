@@ -23,8 +23,6 @@ class Notifications(hass.Hass):
         self.listen_state(self.train_travel, entity='sensor.travel_train_craigieburn')
         # Welcome Home
         self.listen_state(self.welcome_home_start, entity='input_select.house', old='Away', new='Home')
-        # Notify WIN10 on/off
-        self.listen_state(self.win10, entity='switch.win10')
 
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
@@ -114,7 +112,7 @@ class Notifications(hass.Hass):
         except:
             self.log('self.door_opened_handle does not exist')
         self.log('continued after exception')
-        if self.get_state("group.announcements") == 'on' or day in [0, 1, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
+        if self.get_state("group.announcements") == 'on' or day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
             self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: welcome_home')
             if self.get_state("binary_sensor.xiaomi_door_garage_exterior") == 'on':
                 self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='call: garage_door_open')
@@ -125,9 +123,3 @@ class Notifications(hass.Hass):
             if day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
                 self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='The animals need fresh water today.')
             self.turn_off("group.announcements")
-
-    def win10(self, entity, attribute, old, new, kwargs):
-        if old == 'off' and new == 'on':
-            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='WIN10 is on')
-        elif old == 'on' and new == 'off':
-            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='WIN10 is off')

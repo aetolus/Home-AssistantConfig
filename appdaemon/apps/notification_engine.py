@@ -32,19 +32,22 @@ class NotificationEngine(hass.Hass):
                 sep = '.'
                 int1 = self.get_state("sensor.bom_feels_like_c")
                 int1 = int1.split(sep, 1)[0]
-                int2 = self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0")
+                int2 = self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0d")
                 int2 = int2.split(sep, 1)[0]
                 rand1 = ["The temperature today will reach a high of ", "The max temperature today is going to be ", "Today it will get to a high of "]
                 current_time = self.time()
-                current_time = current_time.strftime("%I:%M %p")
+                current_time = current_time.strftime("%-I %-M %p")
                 high_tide = self.get_state("sensor.worldtidesinfo", attribute="high_tide_time")
+                high_tide = high_tide.replace(" AM", ":00")
+                high_tide = self.parse_time(high_tide)
+                high_tide = high_tide.strftime("%-I %-M %p")
                 payload = "Good morning. It's " + current_time + ", the weather in Oak Park is " + int1 + " degrees and " + self.get_state("sensor.dark_sky_summary").lower() + ". " + (random.choice(rand1)) + int2 + ", and high tide in Torquay is at " + high_tide + "."
                 self.announce(topic, payload)
             elif payload == 'call: weekday_alarm':
                 sep = '.'
                 int1 = self.get_state("sensor.bom_feels_like_c")
                 int1 = int1.split(sep, 1)[0]
-                int2 = self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0")
+                int2 = self.get_state("sensor.dark_sky_daytime_high_apparent_temperature_0d")
                 int2 = int2.split(sep, 1)[0]
                 rand1 = ["It's ", "The time is ", "The time now is ", "The time right now is "]
                 rand2 = ["the weather is ", "the weather in Oak Park is "]

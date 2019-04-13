@@ -121,12 +121,12 @@ class HouseMode(hass.Hass):
     def mode_morning(self, entity, attribute, old, new, kwargs):
         # Enabling House Mode Morning
         self.call_service('input_boolean/turn_on', entity_id='input_boolean.speech_notifications')
-        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.1')
+        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.125')
 
     def mode_home(self, entity, attribute, old, new, kwargs):
         # Enabling House Mode Home
         self.call_service('input_boolean/turn_on', entity_id='input_boolean.speech_notifications')
-        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.15')
+        self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.175')
 
         if old == 'Away' or old == 'Vacation':
             livingroom_lights = self.get_app("lighting")
@@ -142,6 +142,7 @@ class HouseMode(hass.Hass):
         self.call_service('rest_command/sabnzbd_speedlimit_off')
         self.call_service('input_boolean/turn_off', entity_id='input_boolean.speech_notifications')
         self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.1')
+        localvars.Notify_Morning_Update = 0
 
         if self.get_state(entity='binary_sensor.plex_playing') != 'off':
             self.win10_off_handle = self.listen_state(self.win10_off, entity='binary_sensor.plex_playing', new='off', duration=300)

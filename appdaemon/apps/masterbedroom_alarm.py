@@ -59,7 +59,7 @@ class MasterBedroomAlarm(hass.Hass):
             self.run_in(self.fire_alarm_music_01, seconds=300)
 
     def fire_alarm_music_01(self, kwargs):
-        AlarmMedia = ["EasyStreet.mp3", "RiseandShine.mp3"]
+        AlarmMedia = ["EasyStreet.mp3", "RiseandShine.mp3", "9to5.mp3"]
         media_url = 'https://home.tai.net.au/local/soundfiles/Alarm/' + (random.choice(AlarmMedia))
         self.log(media_url)
         self.call_service('homeassistant/turn_on', entity_id='input_boolean.trigger_masterbedroom_service_alarm_on')
