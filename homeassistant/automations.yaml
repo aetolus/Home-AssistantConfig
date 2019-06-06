@@ -53,3 +53,4 @@
   - data:
       entity_id: switch.xiaomi_iphone_work
     service: switch.turn_off
+

@@ -36,6 +36,7 @@ class MasterBedroomAlarm(hass.Hass):
         if self.get_state(entity = 'group.kyle') == 'not_home':
             self.log("Sunrise simulation scheduled, but Kyle isn't home")
         else:
+            self.turn_off('switch.circadian_lighting_circadian_lighting')
             self.call_service('homeassistant/turn_on', entity_id='input_boolean.trigger_masterbedroom_service_alarm_on')
             self.call_service('light/turn_on', entity_id='light.master_bedroom_lamp_1_kyle', color_name='red', brightness_pct='1')
             self.run_in(self.fire_alarm_lighting_01, seconds=5)
@@ -55,8 +56,9 @@ class MasterBedroomAlarm(hass.Hass):
         if self.get_state(entity = 'group.kyle') == 'not_home':
             self.log("Audio scheduled, but Kyle isn't home")
         else:
+            self.turn_on('switch.circadian_lighting_circadian_lighting')
             self.call_service('homeassistant/turn_on', entity_id='input_boolean.trigger_masterbedroom_service_alarm_on')
-            self.run_in(self.fire_alarm_music_01, seconds=300)
+            self.run_in(self.fire_alarm_music_01, seconds=0)
 
     def fire_alarm_music_01(self, kwargs):
         AlarmMedia = ["EasyStreet.mp3", "RiseandShine.mp3", "9to5.mp3"]

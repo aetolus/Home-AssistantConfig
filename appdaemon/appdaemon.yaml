@@ -15,6 +15,7 @@ appdaemon:
       client_topics:
         - notifications/newmsg/#
         - sprinkler/rainfall/#
+        - livingroom/tv
 
 hadashboard:
   dash_url: http://10.0.0.254:5001

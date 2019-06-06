@@ -19,7 +19,6 @@
 
 # Plex
 - platform: plex
-  include_non_clients: true
   scan_interval: 5
   remove_unavailable_clients: false
   client_remove_interval: 86400

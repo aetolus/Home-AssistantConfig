@@ -14,7 +14,9 @@ views:
           - input_boolean.guest_mode             
           - input_boolean.speech_notifications          
           - input_boolean.security_system_state          
-          - input_boolean.scheduled_download          
+          - input_boolean.scheduled_download
+          - switch.circadian_lighting_circadian_lighting
+          - switch.xiaomi_slow_cooker
           - switch.sprinkler              
       - type: entities
         title: Living Room

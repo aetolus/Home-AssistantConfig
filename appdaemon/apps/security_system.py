@@ -57,7 +57,7 @@ class SecuritySystem(hass.Hass):
             self.call_service("mqtt/publish", topic="notifications/newmsg/alert", payload="Security system disarmed.")
 
     def security_alert(self, entity, attribute, old, new, kwargs):
-        if self.get_state("input_select.house") == 'Away':
+        if self.get_state("input_select.house") == 'Away' and self.get_state("input_boolean.speech_notifications") == 'off':
             self.call_service('input_boolean/turn_on', entity_id='input_boolean.speech_notifications')
             self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload="You have 60 seconds to disable the alarm.")
             self.run_in(self.security_alert_01, seconds=20, pass_entity=entity)

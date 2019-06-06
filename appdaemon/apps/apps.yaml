@@ -16,8 +16,13 @@ hue_dimmer_switches:
   module: hue_dimmer_switches
   class: HueDimmerSwitches
 
-lighting:
-  module: lighting
+#lighting:
+#  module: lighting
+#  class: Lighting
+#  constrain_switch: switch.circadian_lighting_circadian_lighting,off
+
+lighting_circadian:
+  module: lighting_circadian
   class: Lighting
 
 livingroom_climate:

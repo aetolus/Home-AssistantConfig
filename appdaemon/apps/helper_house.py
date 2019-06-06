@@ -1,6 +1,7 @@
 import appdaemon.plugins.hass.hassapi as hass
 import datetime
 import time
+import localvars
 
 
 #
@@ -129,7 +130,7 @@ class HouseMode(hass.Hass):
         self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.175')
 
         if old == 'Away' or old == 'Vacation':
-            livingroom_lights = self.get_app("lighting")
+            livingroom_lights = self.get_app("lighting_circadian")
             livingroom_lights.evening(kwargs)
             if self.get_state(entity='light.living_room') == 'off' and float(self.get_state(entity='sensor.aeotec_zw100_multisensor_6_luminance')) < 11.0:
                 self.call_service('light/turn_on', entity_id='light.living_room', profile='standard', brightness_pct='100', transition='10')
@@ -156,6 +157,7 @@ class HouseMode(hass.Hass):
         self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.25')
         self.call_service('rest_command/sabnzbd_speedlimit_off')
         self.call_service('light/turn_off', entity_id=['light.living_room', 'light.bedroom', 'light.upstairs'])
+        self.select_option('input_select.bedroom_climate', 'Off')
         if self.now_is_between("14:00:00", "16:00:00"):
             return
         elif self.get_state(entity='switch.win10') == 'on':

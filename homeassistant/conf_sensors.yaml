@@ -169,11 +169,6 @@
   name: 'mqtt_livingroom_climate_setting'
   state_topic: "livingroom/climate"
 
-- platform: mqtt
-  name: 'mqtt_livingroom_tv'
-  state_topic: "livingroom/tv"
-  expire_after: 5
-
 - platform: hue_sensors
 # May need to change to hue_sensors on upgrade to >= 0.89*
 

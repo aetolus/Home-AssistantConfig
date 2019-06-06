@@ -15,14 +15,29 @@
       command_off: 'gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 00000000'
 
 - platform: xiaomi_miio
+  name: 'Xiaomi_PC'
+  host: 10.0.0.205
+  token: a434dff83d8085515563fefe5fb9dd1b
+
+- platform: xiaomi_miio
   name: 'Xiaomi_iPhone_Work'
   host: 10.0.0.206
   token: b702e901869ecdb53703edb6ffaaee00
 
 - platform: xiaomi_miio
-  name: 'Xiaomi_PC'
-  host: 10.0.0.205
-  token: a434dff83d8085515563fefe5fb9dd1b
+  name: 'Xiaomi_Slow_Cooker'
+  host: 10.0.0.207
+  token: 25d5809909d793295e61bfdb7f341223
 
 - platform: holman_iwater
   mac_address: d5:d3:e0:82:10:bd
+
+- platform: circadian_lighting
+  lights_ct:
+    - light.living_room
+    - light.bedroom
+  sleep_entity: 'input_select.house'
+  sleep_state: 'Sleep'
+  sleep_brightness: '10'
+  sleep_colortemp: '1000'
+  

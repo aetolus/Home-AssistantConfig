@@ -251,6 +251,10 @@ switch.win10:
   icon: mdi:desktop-tower
   friendly_name: 'Computer'
 
+switch.xiaomi_slow_cooker:
+  icon: mdi:pot
+  friendly_name: 'Slow Cooker'
+
 zone.home:
   friendly_name: 'Home'
 
