@@ -324,3 +324,11 @@
   api_key: c4b62b152eeb4f488859f493363a0832
   host: 10.0.0.254
   scan_interval: 0.5
+
+- platform: waze_travel_time
+  name: "Acurus to Moe"
+  origin: !secret waze_acurus_coords
+  destination: !secret waze_moe_coords
+  region: 'AU'
+
+- platform: ptv

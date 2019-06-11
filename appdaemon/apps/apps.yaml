@@ -61,9 +61,9 @@ notifications:
   module: notifications
   class: Notifications
 
-presence:
-  module: presence
-  class: Presence
+#presence:
+#  module: presence
+#  class: Presence
 
 #security_motion:
 #  module: security_motion

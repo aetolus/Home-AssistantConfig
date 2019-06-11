@@ -44,7 +44,7 @@ class ServiceDownload(hass.Hass):
 
     def download_off(self, kwargs):
         self.call_service('homeassistant/turn_off', entity_id='input_boolean.scheduled_download')
-        self.call_service('rest_command/sabnzbd_speedlimit_on')
+        #self.call_service('rest_command/sabnzbd_speedlimit_on')
         if self.get_state(entity='group.proximity') == 'on':
             return
         else:

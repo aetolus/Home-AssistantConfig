@@ -23,6 +23,8 @@ class Notifications(hass.Hass):
         self.listen_state(self.train_travel, entity='sensor.travel_train_craigieburn')
         # Welcome Home
         self.listen_state(self.welcome_home_start, entity='input_select.house', old='Away', new='Home')
+        # Moe Travel
+        self.listen_state(self.travel_alert_moe, entity='sensor.acurus_to_moe')
 
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
@@ -123,3 +125,12 @@ class Notifications(hass.Hass):
             if day in [0, 2, 4] and self.now_is_between("14:00:00", "19:00:00"):
                 self.call_service("mqtt/publish", topic='notifications/newmsg/tts', payload='The animals need fresh water today.')
             self.turn_off("group.announcements")
+
+    def travel_alert_moe(self, entity, attribute, old, new, kwargs):
+        if int(new) >= 105 and int(new) < 120 and int(old) < 105:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 1:45')
+        elif int(new) >= 120 and int(old) < 120:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 2 hours')
+        elif int(new) < 105 and int(old) >= 105:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe back below 1:45')
+            

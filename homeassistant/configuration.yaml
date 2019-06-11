@@ -263,11 +263,9 @@ person:
   - name: Sarah
     id: Sarah
     device_trackers:
-      #- device_tracker.sarah_phone
-      #- device_tracker.sarah_phone_wifi
-      #- device_tracker.sarah_phone_bt
-      - device_tracker.supre_phone_wifi
-      - device_tracker.supre_phone_bt
+      - device_tracker.sarah_phone
+      - device_tracker.sarah_phone_wifi
+      - device_tracker.sarah_phone_bt
 
 zeroconf:
 ssdp:

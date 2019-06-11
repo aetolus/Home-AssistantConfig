@@ -4,7 +4,7 @@
 # OwnTracks moved to component
 - platform: asuswrt
   interval_seconds: 15
-  consider_home: 300
+  consider_home: 180
   track_new_devices: false
   hide_if_away: false
 

@@ -1,0 +1,8 @@
+{
+    "domain": "ptv",
+    "name": "PTV",
+    "documentation": "https://www.home-assistant.io/components/ptv",
+    "requirements": [],
+    "dependencies": [],
+    "codeowners": []
+  }
