@@ -56,8 +56,8 @@ class NotificationEngine(hass.Hass):
                 rand5 = ["right now shows ", "currently has a status of ", "currently shows "]
                 current_time = self.time()
                 current_time = current_time.strftime("%-I %-M %p")
-                train_time = [self.get_state(entity="sensor.ptv", attribute="train0_scheduled"), self.get_state(entity="sensor.ptv", attribute="train0_estimated"), self.get_state(entity="sensor.ptv", attribute="train1_scheduled")]
-                payload = "Good morning. " + (random.choice(rand1)) + current_time + ", " + (random.choice(rand2)) + int1 + " degrees and " + self.get_state("sensor.dark_sky_summary").lower() + ". " + (random.choice(rand3)) + int2 + " and the Craigieburn line " + (random.choice(rand5)) + self.get_state("sensor.ptv").lower() + ". The next train is scheduled to depart at " + train_time[0] + " with an estimated departure time of " + self.get_state(entity="sensor.ptv", attribute="train0_estimated") + " followed by " + self.get_state(entity="sensor.ptv", attribute="train1_scheduled") + "."
+                train_time = [self.parse_time(self.get_state(entity="sensor.ptv", attribute="train0_scheduled")).strftime("%-I %-M %p"), self.parse_time(self.get_state(entity="sensor.ptv", attribute="train1_scheduled")).strftime("%-I %-M %p")]
+                payload = "Good morning. " + (random.choice(rand1)) + current_time + ", " + (random.choice(rand2)) + int1 + " degrees and " + self.get_state("sensor.dark_sky_summary").lower() + ". " + (random.choice(rand3)) + int2 + ". The next train from Oak Park is scheduled to depart at " + train_time[0] + " followed by " + train_time[1] + " and the Craigieburn line " + (random.choice(rand5)) + self.get_state("sensor.ptv").lower() + "."
                 self.announce(topic, payload)
             elif payload == 'call: tv_waiting_wifi':
                 self.announce(topic, "Waiting for the TV to connect to the network.")

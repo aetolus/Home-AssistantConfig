@@ -56,11 +56,11 @@ class PTVSensor(Entity):
                 if self.data['departures'][i]['scheduled_departure_utc']:
                     train_scheduled = dateutil.parser.parse(self.data['departures'][i]['scheduled_departure_utc'])
                     train_scheduled = train_scheduled.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_scheduled".format(i)] = str(train_scheduled)[11:-9]
+                    attr["train{}_scheduled".format(i)] = str(train_scheduled)[11:-6]
                 if self.data['departures'][i]['estimated_departure_utc']:
                     train_estimated = dateutil.parser.parse(self.data['departures'][i]['estimated_departure_utc'])
                     train_estimated = train_estimated.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_estimated".format(i)] = str(train_estimated)[11:-9]
+                    attr["train{}_estimated".format(i)] = str(train_estimated)[11:-6]
         except Exception as e:
             _LOGGER.debug("[ATTR]Data unavailable")
             _LOGGER.error(e)
@@ -82,7 +82,7 @@ class PTVSensor(Entity):
             except Exception as e:
                 _LOGGER.debug("[STATE]Data unavailable")
                 _LOGGER.debug(e)
-                return "Unknown"
+                return "unknown"
         return STATE_UNKNOWN
 
     def update(self):

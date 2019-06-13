@@ -136,7 +136,7 @@ class Notifications(hass.Hass):
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe back below 1:45')
 
     def traintest(self, entity, attribute, old, new, kwargs):
-        if old == 'Unknown' and new != 'Unknown':
+        if old == 'unknown' and new != 'unknown':
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="The next train is scheduled to depart Oak Park at {}".format(new))
 
             
