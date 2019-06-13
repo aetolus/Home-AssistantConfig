@@ -51,7 +51,7 @@ views:
           - sensor.dark_sky_overnight_low_apparent_temperature_0d
           - sensor.bom_relative_humidity
           - sun.sun
-          - sensor.travel_train_craigieburn
+          - sensor.ptv
           - sensor.dark_sky_hourly_summary
           - sensor.jemenaoutlook_supply_charge          
           - sensor.jemenaoutlook_single_rate_cost          

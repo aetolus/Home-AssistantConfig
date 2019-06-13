@@ -56,13 +56,14 @@ class PTVSensor(Entity):
                 if self.data['departures'][i]['scheduled_departure_utc']:
                     train_scheduled = dateutil.parser.parse(self.data['departures'][i]['scheduled_departure_utc'])
                     train_scheduled = train_scheduled.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_scheduled".format(i)] = train_scheduled[11:-9]
+                    attr["train{}_scheduled".format(i)] = str(train_scheduled)[11:-9]
                 if self.data['departures'][i]['estimated_departure_utc']:
                     train_estimated = dateutil.parser.parse(self.data['departures'][i]['estimated_departure_utc'])
                     train_estimated = train_estimated.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_estimated".format(i)] = train_estimated[11:-9]
-        except:
-            _LOGGER.debug("[ATTR]Departure times unavailable")
+                    attr["train{}_estimated".format(i)] = str(train_estimated)[11:-9]
+        except Exception as e:
+            _LOGGER.debug("[ATTR]Data unavailable")
+            _LOGGER.error(e)
         return attr
 
     @property
@@ -70,12 +71,18 @@ class PTVSensor(Entity):
         """Return the state of the device."""
         if self.data:
             try:
-                next_train = dateutil.parser.parse(self.data['departures'][0]['scheduled_departure_utc'])
-                next_train = next_train.astimezone(pytz.timezone("Australia/Melbourne"))
-                return next_train[11:-9]
-            except:
-                _LOGGER.debug("[STATE]Next departure time unavailable")
-                return "No departure times currently available"
+                next_train_scheduled = dateutil.parser.parse(self.data['departures'][0]['scheduled_departure_utc'])
+                next_train_estimated = dateutil.parser.parse(self.data['departures'][0]['estimated_departure_utc'])
+                if (next_train_scheduled + timedelta(minutes=10)) >= next_train_estimated:
+                    return str("Major Delays")
+                elif (next_train_scheduled + timedelta(minutes=5)) >= next_train_estimated:
+                    return str("Minor Delays")
+                else:
+                    return str("Good Service")
+            except Exception as e:
+                _LOGGER.debug("[STATE]Data unavailable")
+                _LOGGER.debug(e)
+                return "Unknown"
         return STATE_UNKNOWN
 
     def update(self):
@@ -86,7 +93,7 @@ class PTVSensor(Entity):
             self.data = requests.get(resource, timeout=10).json()
             _LOGGER.debug("Data = %s", self.data)
             _LOGGER.info("PTV data queried")
-        except ValueError as err:
+        except Exception as err:
             _LOGGER.error("Check PTV %s", err.args)
             self.data = None
             raise

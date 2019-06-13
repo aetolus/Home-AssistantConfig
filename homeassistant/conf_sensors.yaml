@@ -119,12 +119,6 @@
       unit_of_measurement: "%"
       value_template: '{{ states.binary_sensor.xiaomi_motion_upstairs.attributes.battery_level }}'
 
-# Scrape
-- platform: scrape
-  resource: 'http://www.metrotrains.com.au/lines/craigieburn'
-  name: travel_train_craigieburn
-  select: 'a[href="#tab4"]'
-
 # Upstairs Temperature Monitor
 - platform: command_line
   name: room_master_climate
@@ -170,7 +164,6 @@
   state_topic: "livingroom/climate"
 
 - platform: hue_sensors
-# May need to change to hue_sensors on upgrade to >= 0.89*
 
 - platform: life360
   name: life360_kyle
@@ -262,13 +255,8 @@
   state_topic: "sprinkler/rainfall/Sun"
   name: "sprinkler/rainfall/sun"
 
-
 - platform: uptime
   unit_of_measurement: days
-
-#- platform: independentreserve_eth
-#- platform: kraken_xrp
-#- platform: btcmarkets_xrp
 
 - platform: rest
   name: 'ha_dockermon_homeassistant'

@@ -27,3 +27,5 @@ class Telegram(hass.Hass):
         elif command == '/where':
             sarah_location = self.get_state(entity='sensor.google_geocode_sarah')
             self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Sarah's location is: " + sarah_location)
+        elif command == '/trains':
+            self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="The next train service is scheduled for " + self.get_state(entity="sensor.ptv", attribute="train0_scheduled") + " with an estimated departure time of " + self.get_state(entity="sensor.ptv", attribute="train0_estimated") + " followed by " + self.get_state(entity="sensor.ptv", attribute="train1_scheduled"))

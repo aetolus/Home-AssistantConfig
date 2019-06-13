@@ -190,7 +190,7 @@ sensor.travel_car_source_home_destination_hm:
   friendly_name: 'Home to H&M'
   icon: mdi:car
 
-sensor.travel_train_craigieburn:
+sensor.ptv:
   friendly_name: 'Craigieburn Line'
   icon: mdi:train
 

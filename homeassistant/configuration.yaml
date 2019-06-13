@@ -123,8 +123,9 @@ logger:
     homeassistant.components.plex.media_player: error
     homeassistant.components.sensor: error
     #homeassistant.loader: error
-    custom_components.sensor.hue_sensors: debug
-    custom_components.sensor.jemenaoutlook: info
+    custom_components.hue_sensors: debug
+    custom_components.jemenaoutlook: warn
+    custom_components.ptv: warn
     pytautulli: critical
 
 # Include Scripts
