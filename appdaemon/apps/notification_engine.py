@@ -53,11 +53,11 @@ class NotificationEngine(hass.Hass):
                 rand2 = ["the weather is ", "the weather in Oak Park is "]
                 rand3 = ["The max temperature today is going to be ", "Today it will get to a high of "]
                 #rand4 = ["In current traffic ", "Right now ", "If you leave now, ", "If you left right now, "]
-                rand5 = ["right now shows ", "currently has a status of ", "currently shows "]
+                rand5 = ["right now shows ", "currently has a status of ", "currently shows ", "is currently showing ", "has a status of ", "is showing as "]
                 current_time = self.time()
-                current_time = current_time.strftime("%-I %-M %p")
-                train_time = [self.parse_time(self.get_state(entity="sensor.ptv", attribute="train0_scheduled")).strftime("%-I %-M %p"), self.parse_time(self.get_state(entity="sensor.ptv", attribute="train1_scheduled")).strftime("%-I %-M %p")]
-                payload = "Good morning. " + (random.choice(rand1)) + current_time + ", " + (random.choice(rand2)) + int1 + " degrees and " + self.get_state("sensor.dark_sky_summary").lower() + ". " + (random.choice(rand3)) + int2 + ". The next train from Oak Park is scheduled to depart at " + train_time[0] + " followed by " + train_time[1] + " and the Craigieburn line " + (random.choice(rand5)) + self.get_state("sensor.ptv").lower() + "."
+                current_time = current_time.strftime("%-I %M %p")
+                train_time = [self.parse_time(self.get_state(entity="sensor.ptv", attribute="train0_scheduled")).strftime("%-I %M %p"), self.parse_time(self.get_state(entity="sensor.ptv", attribute="train1_scheduled")).strftime("%-I %M %p")]
+                payload = "Good morning. " + (random.choice(rand1)) + current_time + ", " + (random.choice(rand2)) + int1 + " degrees and " + self.get_state("sensor.dark_sky_summary").lower() + ". " + (random.choice(rand3)) + int2 + ". The next train from Oak Park is scheduled to depart at " + train_time[0] + ", followed by " + train_time[1] + ", and the line " + (random.choice(rand5)) + self.get_state("sensor.ptv").lower() + "."
                 self.announce(topic, payload)
             elif payload == 'call: tv_waiting_wifi':
                 self.announce(topic, "Waiting for the TV to connect to the network.")

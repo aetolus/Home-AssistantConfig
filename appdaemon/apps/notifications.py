@@ -20,7 +20,7 @@ class Notifications(hass.Hass):
         # HomeAssistant Update Released
         self.listen_state(self.ha_updates, entity='sensor.latest_ha_version')
         # Train Travel
-        self.listen_state(self.train_travel, entity='sensor.travel_train_craigieburn')
+        self.listen_state(self.train_travel, entity='sensor.ptv')
         # Welcome Home
         self.listen_state(self.welcome_home_start, entity='input_select.house', old='Away', new='Home')
         # Moe Travel
@@ -63,16 +63,14 @@ class Notifications(hass.Hass):
         if self.utilities.is_weekday() == False:
             return
 
-        if self.now_is_between("04:30:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
+        if self.now_is_between("04:00:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
             if self.get_state('group.kyle') == 'home':
                 topic = 'notifications/newmsg/tts'
             else:
                 topic = 'notifications/newmsg/telegram'
-            if 'Alert' in new:
-                self.call_service("mqtt/publish", topic=topic, payload="There is currently a " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
-            elif 'Delays' in new:
+            if "Delays" in new and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="There are currently " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
-            elif new == "Good service":
+            elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
