@@ -7,4 +7,4 @@ sleep_win10: '/config/scripts/sshpass -p "q93ot8r667fdQucwri7fiq" ssh HomeAssist
 update_win10: '/config/scripts/sshpass -p "q93ot8r667fdQucwri7fiq" ssh HomeAssistant@10.0.0.181 "usoclient ScanInstallWait; usoclient RestartDevice"'
 sprinkler_on: '/usr/bin/gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 01000020'
 sprinkler_off: '/usr/bin/gatttool -i hci0 -b D5:D3:E0:82:10:BD -t random --char-write-req -a 0x0014 -n 00000000'
-github_push: 'ssh -i /config/scripts/host-key root@10.0.0.254 "cd /docker && git push origin master"'
+github_push: 'ssh -i /config/scripts/host-key root@10.0.0.254 "cd /docker && git add . && git commit -m nightly && git push origin master"'
