@@ -126,15 +126,21 @@ class Notifications(hass.Hass):
             self.turn_off("group.announcements")
 
     def travel_alert_moe(self, entity, attribute, old, new, kwargs):
-        if int(new) >= 105 and int(new) < 120 and int(old) < 105:
-            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 1:45')
+        if int(new) >= 180 and int(old) < 180: 
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 3 hours')
+        else int(new) >= 150 and int(old) < 150:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 2.5 hours')
         elif int(new) >= 120 and int(old) < 120:
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 2 hours')
+        elif int(new) >= 105 and int(old) < 105:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 1:45')
+
+        if int(new) < 180 and int(new) > 150 and int(old) >= 180:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 3 hours')
+        elif int(new) < 150 and int(new) > 120 and int(old) >= 150:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 2.5 hours')
+        elif int(new) < 120 and int(new) > 105 and int(old) >= 120:
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 2 hours')
         elif int(new) < 105 and int(old) >= 105:
-            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe back below 1:45')
-
-    def traintest(self, entity, attribute, old, new, kwargs):
-        if old == 'unknown' and new != 'unknown':
-            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="The next train is scheduled to depart Oak Park at {}".format(new))
-
+            self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 1:45 hours')
             
