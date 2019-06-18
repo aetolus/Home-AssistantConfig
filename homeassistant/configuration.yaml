@@ -122,10 +122,11 @@ logger:
     homeassistant.components.media_player: critical
     homeassistant.components.plex.media_player: error
     homeassistant.components.sensor: error
+    homeassistant.components.shell_command: debug
     #homeassistant.loader: error
     custom_components.hue_sensors: debug
     custom_components.jemenaoutlook: warn
-    custom_components.ptv: warn
+    custom_components.ptv: info
     pytautulli: critical
 
 # Include Scripts

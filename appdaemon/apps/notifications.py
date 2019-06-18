@@ -25,7 +25,6 @@ class Notifications(hass.Hass):
         self.listen_state(self.welcome_home_start, entity='input_select.house', old='Away', new='Home')
         # Moe Travel
         self.listen_state(self.travel_alert_moe, entity='sensor.acurus_to_moe')
-        self.listen_state(self.traintest, entity='sensor.ptv')
 
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
@@ -62,23 +61,23 @@ class Notifications(hass.Hass):
         self.utilities = self.get_app('utilities')
         if self.utilities.is_weekday() == False:
             return
+        if new == 'None':
+            return
 
         if self.now_is_between("04:00:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
-            if self.get_state('group.kyle') == 'home':
+            if self.get_state('person.kyle') == 'home':
                 topic = 'notifications/newmsg/tts'
             else:
                 topic = 'notifications/newmsg/telegram'
-            if "Delays" in new and new != old:
-                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
+            if "delays" in new and new != old:
+                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.travel_train_craigieburn')) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
-            if 'Alert' in new:
-                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There is currently a " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
-            elif 'Delays' in new:
-                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + self.get_state('sensor.travel_train_craigieburn') + " on the Craigieburn line.")
-            elif new == "Good service":
+            if 'delays' in new and new != old:
+                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + str(self.get_state('sensor.travel_train_craigieburn')) + " on the Craigieburn line.")
+            elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Good service has been restored on the Cragieburn line.")
 
     # Welcome Home
@@ -128,7 +127,7 @@ class Notifications(hass.Hass):
     def travel_alert_moe(self, entity, attribute, old, new, kwargs):
         if int(new) >= 180 and int(old) < 180: 
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 3 hours')
-        else int(new) >= 150 and int(old) < 150:
+        elif int(new) >= 150 and int(old) < 150:
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 2.5 hours')
         elif int(new) >= 120 and int(old) < 120:
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is over 2 hours')
@@ -143,4 +142,3 @@ class Notifications(hass.Hass):
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 2 hours')
         elif int(new) < 105 and int(old) >= 105:
             self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload='Travel time from Acurus to Moe is now less than 1:45 hours')
-            

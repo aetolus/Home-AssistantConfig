@@ -56,11 +56,11 @@ class PTVSensor(Entity):
                 if self.data['departures'][i]['scheduled_departure_utc']:
                     train_scheduled = dateutil.parser.parse(self.data['departures'][i]['scheduled_departure_utc'])
                     train_scheduled = train_scheduled.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_scheduled".format(i)] = train_scheduled.strftime("%I:%M:%S")
+                    attr["train{}_scheduled".format(i)] = train_scheduled.strftime("%-I:%M:%S")
                 if self.data['departures'][i]['estimated_departure_utc']:
                     train_estimated = dateutil.parser.parse(self.data['departures'][i]['estimated_departure_utc'])
                     train_estimated = train_estimated.astimezone(pytz.timezone("Australia/Melbourne"))
-                    attr["train{}_estimated".format(i)] = train_estimated.strftime("%I:%M:%S")
+                    attr["train{}_estimated".format(i)] = train_estimated.strftime("%-I:%M:%S")
         except Exception as e:
             _LOGGER.debug("[ATTR]Data unavailable")
             _LOGGER.error(e)
@@ -74,11 +74,13 @@ class PTVSensor(Entity):
                 next_train_scheduled = dateutil.parser.parse(self.data['departures'][0]['scheduled_departure_utc'])
                 next_train_estimated = dateutil.parser.parse(self.data['departures'][0]['estimated_departure_utc'])
                 if (next_train_estimated - timedelta(minutes=10)) >= next_train_scheduled:
-                    return str("Major Delays")
+                    time_difference = next_train_estimated - timedelta(minutes=10)
+                    return str("Major delays")
                 elif (next_train_estimated - timedelta(minutes=5)) >= next_train_scheduled:
-                    return str("Minor Delays")
+                    time_difference = next_train_estimated - timedelta(minutes=5)
+                    return str("Minor delays")
                 else:
-                    return str("Good Service")
+                    return str("Good service")
             except Exception as e:
                 _LOGGER.debug("[STATE]Data unavailable")
                 _LOGGER.debug(e)
