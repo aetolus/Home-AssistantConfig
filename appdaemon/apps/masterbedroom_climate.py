@@ -25,7 +25,7 @@ class MasterBedroomClimate(hass.Hass):
         if self.get_state(entity='input_select.house') == 'Vacation':
             return
             
-        if self.now_is_between("04:00:00", "06:00:00") or self.now_is_between("18:30:00", "22:30:00"):
+        if self.now_is_between("04:00:00", "07:00:00") or self.now_is_between("18:30:00", "22:30:00"):
             if float(new) > 25:
                 self.select_option('input_select.bedroom_climate', 'Cool')
             elif float(new) < 18.5:

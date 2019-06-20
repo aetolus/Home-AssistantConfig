@@ -125,9 +125,12 @@ class HouseMode(hass.Hass):
         self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.125')
 
     def mode_home(self, entity, attribute, old, new, kwargs):
+        #Logging
+        self.log("Changing to home because " + entity + " changed from " + old + " to " + new)
         # Enabling House Mode Home
         self.call_service('input_boolean/turn_on', entity_id='input_boolean.speech_notifications')
         self.call_service('media_player/volume_set', entity_id='media_player.livingroom_sonos', volume_level='0.175')
+        self.call_service('shell_command/fix_hue')
 
         if old == 'Away' or old == 'Vacation':
             livingroom_lights = self.get_app("lighting_circadian")

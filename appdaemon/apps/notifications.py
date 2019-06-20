@@ -61,8 +61,6 @@ class Notifications(hass.Hass):
         self.utilities = self.get_app('utilities')
         if self.utilities.is_weekday() == False:
             return
-        if new == 'None':
-            return
 
         if self.now_is_between("04:00:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
             if self.get_state('person.kyle') == 'home':
@@ -70,13 +68,13 @@ class Notifications(hass.Hass):
             else:
                 topic = 'notifications/newmsg/telegram'
             if "delays" in new and new != old:
-                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.travel_train_craigieburn')) + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.ptv')) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
             if 'delays' in new and new != old:
-                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + str(self.get_state('sensor.travel_train_craigieburn')) + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + str(self.get_state('sensor.ptv')) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Good service has been restored on the Cragieburn line.")
 

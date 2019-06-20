@@ -82,7 +82,7 @@ class PTVSensor(Entity):
                 else:
                     return str("Good service")
             except Exception as e:
-                _LOGGER.debug("[STATE]Data unavailable")
+                _LOGGER.error("[STATE]Data unavailable")
                 _LOGGER.debug(e)
                 return "unknown"
         return STATE_UNKNOWN
