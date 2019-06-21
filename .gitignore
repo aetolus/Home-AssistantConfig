@@ -27,6 +27,7 @@ homeassistant/www/images/
 
 homeassistant/*.conf
 homeassistant/*.db-journal
+homeassistant/alexa_media.kyle@tai.net.au.pickle
 homeassistant/home-assistant*
 homeassistant/ip_bans.yaml
 homeassistant/known_devices.yaml

@@ -271,3 +271,9 @@ person:
 
 zeroconf:
 ssdp:
+
+alexa_media:
+  accounts:
+    - email: !secret amazon_username
+      password: !secret amazon_password
+      url: amazon.com.au

@@ -115,7 +115,8 @@ class NotificationEngine(hass.Hass):
                 while self.voice_queue.empty() == False:
                     self.log("voice_queue: Combining multiple inputs into single message.")
                     voice_queue_text = voice_queue_text + '. ' + self.voice_queue.get()
-                self.call_service("mqtt/publish", topic="alexa/tts/LivingRoom_R", payload=voice_queue_text)
+                #self.call_service("mqtt/publish", topic="alexa/tts/LoungeRR", payload=voice_queue_text)
+                self.call_service("notify/alexa_media_loungerr", data={"type":"tts"}, message=voice_queue_text)
                 # Rinse and repeat
                 self.log("Worker3 task complete. Speech notification sent.")
                 self.voice_queue.task_done()
