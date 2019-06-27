@@ -126,7 +126,7 @@ logger:
     #homeassistant.loader: error
     custom_components.hue_sensors: debug
     custom_components.jemenaoutlook: warn
-    custom_components.ptv: info
+    custom_components.ptv: warning
     pytautulli: critical
 
 # Include Scripts
@@ -277,3 +277,6 @@ alexa_media:
     - email: !secret amazon_username
       password: !secret amazon_password
       url: amazon.com.au
+
+hacs:
+  token: !secret hacs_token

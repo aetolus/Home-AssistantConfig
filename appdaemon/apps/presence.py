@@ -15,11 +15,11 @@ class Presence(hass.Hass):
     def check_lastupdated(self, kwargs):
         kyle_lastupdated = datetime.datetime.now().timestamp() - self.convert_utc(self.entities.device_tracker.kyle_phone.last_updated).timestamp()
         sarah_lastupdated = datetime.datetime.now().timestamp() - self.convert_utc(self.entities.device_tracker.sarah_phone.last_updated).timestamp()
-        if kyle_lastupdated > 5400 and 'device_tracker.kyle_phone' in self.get_state(entity="group.kyle", attribute='entity_id'):
-            #self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="Removing device_tracker.kyle_phone from group.kyle")
+        if kyle_lastupdated > 5400 and 'device_tracker.kyle_phone' in self.get_state(entity="person.kyle", attribute='entity_id'):
+            #self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="Removing device_tracker.kyle_phone from person.kyle")
             self.call_service("group/set", object_id="kyle", entities="device_tracker.kyle_phone_bt, device_tracker.kyle_phone_wifi")
-        elif kyle_lastupdated < 5400 and 'device_tracker.kyle_phone' not in self.get_state(entity="group.kyle", attribute='entity_id'):
-            #self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="Adding device_tracker.kyle_phone to group.kyle")
+        elif kyle_lastupdated < 5400 and 'device_tracker.kyle_phone' not in self.get_state(entity="person.kyle", attribute='entity_id'):
+            #self.call_service("mqtt/publish", topic='notifications/newmsg/telegram', payload="Adding device_tracker.kyle_phone to person.kyle")
             self.call_service("group/set", object_id="kyle", entities="device_tracker.kyle_phone, device_tracker.kyle_phone_bt, device_tracker.kyle_phone_wifi")
 
         if sarah_lastupdated > 5400 and 'device_tracker.sarah_phone' in self.get_state(entity="group.sarah", attribute='entity_id'):

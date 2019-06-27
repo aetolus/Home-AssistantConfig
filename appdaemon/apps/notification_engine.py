@@ -62,9 +62,9 @@ class NotificationEngine(hass.Hass):
             elif payload == 'call: tv_waiting_wifi':
                 self.announce(topic, "Waiting for the TV to connect to the network.")
             elif payload == 'call: welcome_home':
-                if self.get_state('group.kyle') == 'home' and self.get_state('group.sarah') != 'home':
+                if self.get_state('person.kyle') == 'home' and self.get_state('group.sarah') != 'home':
                     self.announce(topic, "Welcome home Kyle. I have the following notifications for you - ")
-                elif self.get_state('group.kyle') != 'home' and self.get_state('group.sarah') == 'home':
+                elif self.get_state('person.kyle') != 'home' and self.get_state('group.sarah') == 'home':
                     self.announce(topic, "Welcome home Sarah. I have the following notifications for you - ")
                 else:
                     self.announce(topic, "Welcome home. I have the following notifications for you - ")

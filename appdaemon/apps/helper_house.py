@@ -175,7 +175,7 @@ class HouseMode(hass.Hass):
 
     def proximity(self, entity, attribute, old, new, kwargs):
         if self.get_state(entity='group.people') == 'home':
-            if 'kyle' in entity and self.get_state('group.kyle') == 'not_home':
+            if 'kyle' in entity and self.get_state('person.kyle') == 'not_home':
                 self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Kyle is ' + self.get_state(entity="sensor.travel_kyle", attribute="distance") + ' from home.')
             elif 'sarah' in entity and self.get_state('group.sarah') == 'not_home':
                 self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Sarah is ' + self.get_state(entity="sensor.travel_sarah", attribute="distance") + ' from home.')
