@@ -180,7 +180,7 @@
   name: 'mqtt_livingroom_climate_setting'
   state_topic: "livingroom/climate"
 
-- platform: hue_sensors
+- platform: huesensor
 
 - platform: mqtt
   state_topic: "sprinkler/rainfall/Mon"

@@ -143,7 +143,6 @@ views:
           - automation.battery_phone_acurus_charge
           - automation.battery_phone_acurus_discharge
           - automation.house_service_gfclock
-          - automation.masterbedroom_service_alarm_off
           - automation.homeassistant_system_state
   - title: Cameras
     cards:

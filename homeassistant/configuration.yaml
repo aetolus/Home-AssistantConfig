@@ -122,7 +122,7 @@ logger:
     homeassistant.components.plex.media_player: error
     homeassistant.components.sensor: error
     homeassistant.components.shell_command: debug
-    custom_components.hue_sensors: debug
+    custom_components.huesensor: debug
     custom_components.jemenaoutlook: warn
     custom_components.ptv: warning
     pytautulli: critical
