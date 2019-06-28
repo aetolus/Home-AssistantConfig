@@ -23,7 +23,7 @@
 - platform: google_travel_time
   name: 'travel_kyle'
   api_key: !secret google_api
-  origin: device_tracker.kyle_phone
+  origin: device_tracker.kyle
   destination: !secret home_address
   options:
     departure_time: 'now'
@@ -33,7 +33,7 @@
 - platform: google_travel_time
   name: 'travel_sarah'
   api_key: !secret google_api
-  origin: device_tracker.sarah_phone
+  origin: device_tracker.sarah
   destination: !secret home_address
   options:
     departure_time: 'now'
@@ -119,6 +119,23 @@
       unit_of_measurement: "%"
       value_template: '{{ states.binary_sensor.xiaomi_motion_upstairs.attributes.battery_level }}'
 
+# Deprecate these - move to using device_tracker attributes
+    life360_acurus_battery:
+      friendly_name: 'Life360 Acurus Battery'
+      unit_of_measurement: "%"
+      value_template: '{{ states.device_tracker.acurus.attributes.battery }}'
+
+    life360_kyle_battery:
+      friendly_name: 'Phone - Kyle'
+      unit_of_measurement: "%"
+      value_template: '{{ states.device_tracker.kyle.attributes.battery }}'
+
+    life360_sarah_battery:
+      friendly_name: 'Phone - Sarah'
+      unit_of_measurement: "%"
+      value_template: '{{ states.device_tracker.sarah.attributes.battery }}'
+# End
+
 # Upstairs Temperature Monitor
 - platform: command_line
   name: room_master_climate
@@ -148,11 +165,11 @@
 
 - platform: google_geocode
   name: google_geocode_kyle
-  origin: device_tracker.kyle_phone
+  origin: device_tracker.kyle
 
 - platform: google_geocode
   name: google_geocode_sarah
-  origin: device_tracker.sarah_phone
+  origin: device_tracker.sarah
 
 - platform: mqtt
   name: 'mqtt_motion'
@@ -164,68 +181,6 @@
   state_topic: "livingroom/climate"
 
 - platform: hue_sensors
-
-- platform: life360
-  name: life360_kyle
-  username: !secret life360_username_kyle
-  password: !secret life360_password_kyle
-  mqtt_topic: "life360/kyle"
-  scan_interval: 30
-
-- platform: life360
-  name: life360_sarah
-  username: !secret life360_username_sarah
-  password: !secret life360_password_sarah
-  mqtt_topic: "life360/sarah"
-  scan_interval: 30
-
-- platform: mqtt
-  state_topic: "owntracks/acurus/phone"
-  name: "life360_acurus_battery"
-  unit_of_measurement: "%"
-  value_template: '{{ value_json.batt | round() }}'
-
-- platform: mqtt
-  state_topic: "owntracks/acurus/phone"
-  name: "life360_acurus_charging"
-  value_template: >
-    {% if value_json.charging == 0 %}
-      Discharging
-    {% elif value_json.charging == 1 %}
-      Charging
-    {% endif %}
-
-- platform: mqtt
-  state_topic: "owntracks/kyle/phone"
-  name: "life360_kyle_battery"
-  unit_of_measurement: "%"
-  value_template: '{{ value_json.batt | round() }}'
-
-- platform: mqtt
-  state_topic: "owntracks/kyle/phone"
-  name: "life360_kyle_charging"
-  value_template: >
-    {% if value_json.charging == 0 %}
-      Discharging
-    {% elif value_json.charging == 1 %}
-      Charging
-    {% endif %}
-
-- platform: mqtt
-  state_topic: "owntracks/sarah/phone"
-  name: "life360_sarah_battery"
-  unit_of_measurement: "%"
-  value_template: '{{ value_json.batt | round() }}'
-
-- platform: mqtt
-  state_topic: "owntracks/sarah/phone"
-  name: "life360_sarah_charging"
-  value_template: >
-    {% if value_json.charging == 0 %}
-      Discharging
-    {% elif value_json.charging == 1 %}
-      Charging
-    {% endif %}
 
 - platform: mqtt
   state_topic: "sprinkler/rainfall/Mon"

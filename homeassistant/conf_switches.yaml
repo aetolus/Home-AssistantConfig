@@ -38,6 +38,6 @@
     - light.bedroom
   sleep_entity: 'input_select.house'
   sleep_state: 'Sleep'
-  sleep_brightness: '10'
+  sleep_brightness: '1'
   sleep_colortemp: '1000'
   

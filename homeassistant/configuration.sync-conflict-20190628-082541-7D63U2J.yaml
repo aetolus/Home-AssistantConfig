@@ -118,10 +118,13 @@ logbook:
 logger:
   default: warn
   logs:
+    #homeassistant.components.alexa.smart_home: warn
+    homeassistant.components.life360: debug
     homeassistant.components.media_player: critical
     homeassistant.components.plex.media_player: error
     homeassistant.components.sensor: error
     homeassistant.components.shell_command: debug
+    #homeassistant.loader: error
     custom_components.hue_sensors: debug
     custom_components.jemenaoutlook: warn
     custom_components.ptv: warning
@@ -234,6 +237,9 @@ asuswrt:
   username: !secret asus_username
   password: !secret asus_password
 
+owntracks:
+  max_gps_accuracy: 100
+
 lovelace:
   mode: yaml
 
@@ -254,7 +260,7 @@ person:
     id: kyle
     user_id: 62b5612a282546ba8d8ea702899b1a16
     device_trackers:
-      - device_tracker.kyle
+      - device_tracker.kyle_phone
       - device_tracker.kyle_phone_wifi
       - device_tracker.kyle_phone_bt
   - name: Sarah
@@ -280,16 +286,4 @@ life360:
   accounts:
     - username: !secret life360_username_kyle
       password: !secret life360_password_kyle
-    - username: !secret life360_username_sarah
-      password: !secret life360_password_sarah
   prefix: ''
-  max_update_wait:
-    minutes: 45
-  show_as_state:
-    - driving
-    - moving
-  # Set comm error thresholds so first is not logged,
-  # second is logged as a WARNING, and third and fourth
-  # are logged as ERRORs.
-  warning_threshold: 2
-  error_threshold: 3
