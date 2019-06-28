@@ -12,6 +12,7 @@ class MasterBedroomAlarm(hass.Hass):
     def initialize(self):
         time = datetime.time(0, 0, 0)
         self.run_minutely(self.check_alarm, time)
+        self.listen_state(self.alarm_off, entity='light.bedroom_lamp_kyle', old='on', new='off', constrain_input_boolean='input_boolean.trigger_masterbedroom_service_alarm_on,on')
 
     def check_alarm(self, kwargs):
         current_date = self.date()
@@ -38,19 +39,19 @@ class MasterBedroomAlarm(hass.Hass):
         else:
             self.turn_off('switch.circadian_lighting_circadian_lighting')
             self.call_service('homeassistant/turn_on', entity_id='input_boolean.trigger_masterbedroom_service_alarm_on')
-            self.call_service('light/turn_on', entity_id='light.master_bedroom_lamp_1_kyle', color_name='red', brightness_pct='1')
+            self.call_service('light/turn_on', entity_id='light.bedroom_lamp_kyle', color_name='red', brightness_pct='1')
             self.run_in(self.fire_alarm_lighting_01, seconds=5)
 
     def fire_alarm_lighting_01(self, kwargs):
         if self.get_state(entity='input_boolean.trigger_masterbedroom_service_alarm_on') == 'off':
             return
-        self.call_service('light/turn_on', entity_id='light.master_bedroom_lamp_1_kyle', color_temp=self.get_state(entity='sensor.circadian_values', attribute='colortemp'), brightness_pct=50, transition=895)
+        self.call_service('light/turn_on', entity_id='light.bedroom_lamp_kyle', color_temp=self.get_state(entity='sensor.circadian_values', attribute='colortemp'), brightness_pct=50, transition=895)
         self.run_in(self.fire_alarm_lighting_02, seconds=895)
 
     def fire_alarm_lighting_02(self, kwargs):
         if self.get_state(entity='input_boolean.trigger_masterbedroom_service_alarm_on') == 'off':
             return
-        self.call_service('light/turn_on', entity_id='light.master_bedroom_lamp_1_kyle', color_temp=self.get_state(entity='sensor.circadian_values', attribute='colortemp'), brightness_pct=100, transition=900)
+        self.call_service('light/turn_on', entity_id='light.bedroom_lamp_kyle', color_temp=self.get_state(entity='sensor.circadian_values', attribute='colortemp'), brightness_pct=100, transition=900)
 
     def fire_audio(self, kwargs):
         if self.get_state(entity = 'person.kyle') == 'not_home':
@@ -96,3 +97,7 @@ class MasterBedroomAlarm(hass.Hass):
 
     def fire_alarm_music_08(self, kwargs):
         self.call_service('media_player/volume_set', entity_id='media_player.chromecast_masterbedroom', volume_level='0.175')
+
+    def alarm_off(self, entity, attribute, old, new, kwargs):
+        self.call_service('media_player/turn_off', entity_id='media_player.chromecast_masterbedroom')
+        self.call_service('homeassistant/turn_off', entity_id='input_boolean.trigger_masterbedroom_service_alarm_on')
