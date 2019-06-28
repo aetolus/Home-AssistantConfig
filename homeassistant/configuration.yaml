@@ -260,7 +260,7 @@ person:
   - name: Sarah
     id: Sarah
     device_trackers:
-      - device_tracker.sarah_phone
+      - device_tracker.sarah
       - device_tracker.sarah_phone_wifi
       - device_tracker.sarah_phone_bt
 
