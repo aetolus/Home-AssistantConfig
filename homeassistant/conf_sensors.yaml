@@ -143,11 +143,9 @@
   unit_of_measurement: '°C'
   scan_interval: 300
 
-# Check for Home-Assistant Updates
-- platform: command_line
+- platform: version
   name: latest_ha_version
-  command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
-  scan_interval: 3600
+  source: docker
 
 - platform: systemmonitor
   resources:

@@ -53,7 +53,7 @@ class Notifications(hass.Hass):
 
     # Notify about new HomeAssistant Updates
     def ha_updates(self, entity, attribute, old, new, kwargs):
-        if 'b' not in self.get_state('sensor.latest_ha_version'):
+        if 'b' or 'dev' not in self.get_state('sensor.latest_ha_version'):
             self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Home Assistant " + self.get_state('sensor.latest_ha_version') + " is now available.")
 
     # Notify if delays on the train station
@@ -68,13 +68,13 @@ class Notifications(hass.Hass):
             else:
                 topic = 'notifications/newmsg/telegram'
             if "delays" in new and new != old:
-                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.ptv')) + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.ptv').lower()) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
             if 'delays' in new and new != old:
-                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + str(self.get_state('sensor.ptv')) + " on the Craigieburn line.")
+                self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="There are currently " + str(self.get_state('sensor.ptv').lower()) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Good service has been restored on the Cragieburn line.")
 

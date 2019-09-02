@@ -174,11 +174,18 @@ class HouseMode(hass.Hass):
 # MISC House Helper Functions
 
     def proximity(self, entity, attribute, old, new, kwargs):
+        self.log("Reached proximity")
         if self.get_state(entity='group.people') == 'home':
-            if 'kyle' in entity and self.get_state('person.kyle') == 'not_home':
-                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Kyle is ' + self.get_state(entity="sensor.travel_kyle", attribute="distance") + ' from home.')
-            elif 'sarah' in entity and self.get_state('group.sarah') == 'not_home':
-                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Sarah is ' + self.get_state(entity="sensor.travel_sarah", attribute="distance") + ' from home.')
+            self.log("Inside group.people")
+            self.log(entity)
+            self.log('kyle: ' + self.get_state('person.kyle'))
+            self.log('sarah: ' + self.get_state('person.sarah'))
+            if 'kyle' in entity and self.get_state('person.kyle') != 'home':
+                self.log("kyle")
+                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Kyle is ' + self.get_state(entity="sensor.travel_kyle", attribute="distance") + ' and ' + self.get_state(entity="sensor.travel_kyle", attribute="duration") + ' from home.')
+            elif 'sarah' in entity and self.get_state('person.sarah') != 'home':
+                self.log("sarah")
+                self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='Sarah is ' + self.get_state(entity="sensor.travel_sarah", attribute="distance") + ' and ' + self.get_state(entity="sensor.travel_sarah", attribute="duration") + ' from home.')
             
 # Sleep Warning
 
@@ -198,4 +205,3 @@ class HouseMode(hass.Hass):
 # Guest mode turned off
     def guest_mode_off(self, entity, attribute, old, new, kwargs):
         self.call_service('homeassistant/turn_off', entity_id='input_boolean.guest_mode')
-

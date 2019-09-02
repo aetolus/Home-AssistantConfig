@@ -93,7 +93,7 @@ class LivingRoomClimate(hass.Hass):
             mode = 'cool'
         elif high_temp > 35 and home_state != "Away":
             mode = 'cool'
-        elif inside_temp < 18.5 and home_state != "Away": #and outside_temp < 18:
+        elif inside_temp < 17.5 and home_state != "Away": #and outside_temp < 18:
             mode = 'heat'
         else:
             mode = 'off'
@@ -104,7 +104,7 @@ class LivingRoomClimate(hass.Hass):
             setting = 'cool_' + str(21)
         elif mode == 'cool' and high_temp > 35:
             setting = '21q'
-        elif mode == 'heat' and inside_temp < 18.5:
+        elif mode == 'heat' and inside_temp < 17.5:
             setting = 'heat_' + str(21)
         #elif mode == 'powersave':
             #setting = 'Off'
