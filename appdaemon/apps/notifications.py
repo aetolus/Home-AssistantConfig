@@ -18,7 +18,7 @@ class Notifications(hass.Hass):
         self.listen_state(self.morning_update_read, entity='binary_sensor.xiaomi_motion_kitchen', old='off', new='on', constrain_input_select='input_select.house,Morning')
         self.listen_state(self.morning_update_read, entity='binary_sensor.aeotec_motion', old='off', new='on', constrain_input_select='input_select.house,Morning')
         # HomeAssistant Update Released
-        self.listen_state(self.ha_updates, entity='sensor.latest_ha_version')
+        self.listen_state(self.ha_updates, entity='sensor.ha_version_latest')
         # Train Travel
         self.listen_state(self.train_travel, entity='sensor.ptv')
         # Welcome Home
@@ -53,8 +53,10 @@ class Notifications(hass.Hass):
 
     # Notify about new HomeAssistant Updates
     def ha_updates(self, entity, attribute, old, new, kwargs):
-        if 'b' or 'dev' not in self.get_state('sensor.latest_ha_version'):
-            self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Home Assistant " + self.get_state('sensor.latest_ha_version') + " is now available.")
+        if 'b' in self.get_state('sensor.ha_version_latest') or 'dev' in self.get_state('sensor.ha_version_latest'):
+            return
+        else:
+            self.call_service("mqtt/publish", topic="notifications/newmsg/telegram", payload="Home Assistant " + self.get_state('sensor.ha_version_latest') + " is now available.")
 
     # Notify if delays on the train station
     def train_travel(self, entity, attribute, old, new, kwargs):

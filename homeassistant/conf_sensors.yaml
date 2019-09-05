@@ -144,8 +144,12 @@
   scan_interval: 300
 
 - platform: version
-  name: latest_ha_version
+  name: ha_version_latest
   source: docker
+
+- platform: command_line
+  name: ha_version_current
+  command: 'cat /config/.HA_VERSION'
 
 - platform: systemmonitor
   resources:
