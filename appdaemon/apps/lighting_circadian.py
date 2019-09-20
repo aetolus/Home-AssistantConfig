@@ -17,6 +17,8 @@ class Lighting(hass.Hass):
     def initialise(self, kwargs):
         # Turn on lights when motion detected in the morning
         self.listen_state(self.morning, entity='binary_sensor.lighting_motion_xiaomi_upstairs', old='off', new='on', constrain_input_select='input_select.house,Morning')
+        # Turn lights off with sunlight
+        self.listen_state(self.morning_off, entity='sensor.aeotec_zw100_multisensor_6_luminance')
         # Turn lights on 90 minutes before sunset in the evening
         self.run_at_sunset(self.evening, offset=-5400, constrain_input_select='input_select.house,Home')
         # Turn lights off 15 minutes after sleep mode
@@ -25,6 +27,11 @@ class Lighting(hass.Hass):
     def morning(self, entity, attribute, old, new, kwargs):
         self.turn_on('switch.circadian_lighting_circadian_lighting')
         self.call_service('light/turn_on', entity_id='light.living_room')
+
+    def morning_off(self, entity, attribute, old, new, kwargs):
+        self.log("Luminance: " + new)
+        if float(new) > 100:
+            self.call_service('light/turn_off', entity_id='light.living_room')
 
     def evening(self, kwargs):
         if self.time() > self.parse_time("sunset - 00:90:00"):

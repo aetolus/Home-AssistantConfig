@@ -29,7 +29,7 @@ class Notifications(hass.Hass):
     # Read Morning Update
     def morning_update_enable(self, entity, attribute, old, new, kwargs):
         self.log("Reached morning_update_enable, localvars.Notify_Morning_Update is: " + str(localvars.Notify_Morning_Update))
-        if localvars.Notify_Morning_Update == 0:
+        if localvars.Notify_Morning_Update == 0 or localvars.Notify_Morning_Update == 3:
             self.log("Morning update enabled. Waiting for motion upstairs")
             localvars.Notify_Morning_Update = 1
 
@@ -44,7 +44,7 @@ class Notifications(hass.Hass):
         if localvars.Notify_Morning_Update != 2:
             return
         self.log("Motion detected by " + entity + ". Reading morning update.")
-        localvars.Notify_Morning_Update = 0
+        localvars.Notify_Morning_Update = 3
         self.utilities = self.get_app('utilities')
         if self.utilities.is_weekday() == True:
             self.call_service("mqtt/publish", topic="notifications/newmsg/tts", payload='call: weekday_alarm')
@@ -64,7 +64,7 @@ class Notifications(hass.Hass):
         if self.utilities.is_weekday() == False:
             return
 
-        if self.now_is_between("04:00:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on':
+        if self.now_is_between("04:00:00", "08:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'on' and localvars.Notify_Morning_Update == 3:
             if self.get_state('person.kyle') == 'home':
                 topic = 'notifications/newmsg/tts'
             else:
@@ -73,6 +73,8 @@ class Notifications(hass.Hass):
                 self.call_service("mqtt/publish", topic=topic, payload="There are currently " + str(self.get_state('sensor.ptv').lower()) + " on the Craigieburn line.")
             elif new == "Good service" and new != old:
                 self.call_service("mqtt/publish", topic=topic, payload="Good service has been restored on the Cragieburn line.")
+        elif localvars.Notify_Morning_Update == 3:
+            localvars.Notify_Morning_Update = 0
 
         if self.now_is_between("14:00:00", "17:00:00") and self.get_state('binary_sensor.proximity_kyle') == 'off':
             if 'delays' in new and new != old:

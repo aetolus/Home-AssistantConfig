@@ -9,6 +9,7 @@ people:
   entities:
     - person.kyle
     - person.sarah
+    - person.jake
 
 proximity:
   entities:

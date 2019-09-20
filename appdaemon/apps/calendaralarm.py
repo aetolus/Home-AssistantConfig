@@ -11,6 +11,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class CalendarAlarm(hass.Hass):
 
     def initialize(self):
+        self.listen_state(self.alarm_set, entity='input_boolean.test')
         self.listen_state(self.alarm_set, entity='input_select.house', new='Sleep')
         
     def alarm_set(self, entity, attribute, old, new, kwargs):
@@ -21,10 +22,12 @@ class CalendarAlarm(hass.Hass):
         today = str(today).split(sep, 1)[0]
         tomorrow = datetime.now() + timedelta(days=1)
         tomorrow = str(tomorrow).split(sep, 1)[0]
-        if start_day == tomorrow or start_day == today:
+        if start_day == tomorrow or start_day == today and self.get_state(entity="calendar.kyle", attribute="message") == 'Alarm':
             self.call_service('homeassistant/turn_on',entity_id='input_boolean.masterbedroom_service_alarm')
             start_time = start.split(sep, 1)[1]
-            alarm_time = datetime.strptime(start_time, '%H:%M:%S') - datetime.strptime('02:00:00', '%H:%M:%S')
+            # Edit datetime.strptime('00:00:00', '%H:%M:%S') if Syncgene/Calendar time conflicts
+            alarm_time = datetime.strptime(start_time, '%H:%M:%S') - datetime.strptime('00:00:00', '%H:%M:%S')
+            self.log(alarm_time)
             sep = ':'
             alarm_hour = str(alarm_time).split(sep, 1)[0]
             alarm_min = str(alarm_time).split(sep, 1)[1]

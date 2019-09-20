@@ -3,6 +3,8 @@
   - device_id: kyle
     name: kylefrasernz@gmail.com
     track: true
+    search: "#Alarm"
+
 - cal_id: 1g4lcbn5oug28vmubovh1kkg4o@group.calendar.google.com
   entities:
   - device_id: sarahs_training

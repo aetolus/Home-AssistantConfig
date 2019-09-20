@@ -272,6 +272,10 @@ person:
       - device_tracker.sarah
       - device_tracker.sarah_phone_wifi
       - device_tracker.sarah_phone_bt
+  - name: Jake
+    id: Jake
+    device_trackers:
+      - device_tracker.jake_phone_wifi
 
 zeroconf:
 ssdp:
@@ -302,3 +306,6 @@ life360:
   # are logged as ERRORs.
   warning_threshold: 2
   error_threshold: 3
+
+plex:
+  token: !secret plex_token

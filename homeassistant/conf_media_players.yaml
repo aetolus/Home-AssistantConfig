@@ -17,12 +17,6 @@
       - HDMI1
       - HDMI2
 
-# Plex
-- platform: plex
-  scan_interval: 5
-  remove_unavailable_clients: false
-  client_remove_interval: 86400
-
 # Spotify
 - platform: spotify
   client_id: !secret spotify_client_id
