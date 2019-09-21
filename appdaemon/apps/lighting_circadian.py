@@ -12,7 +12,7 @@ class Lighting(hass.Hass):
 
     def initialize(self):
         # This is to allow time for sun.sun to initialise after a HASS restart
-        self.run_in(self.initialise, seconds=30)
+        self.run_in(self.initialise, seconds=60)
 
     def initialise(self, kwargs):
         # Turn on lights when motion detected in the morning
@@ -29,8 +29,9 @@ class Lighting(hass.Hass):
         self.call_service('light/turn_on', entity_id='light.living_room')
 
     def morning_off(self, entity, attribute, old, new, kwargs):
-        self.log("Luminance: " + new)
-        if float(new) > 100:
+        self.log(float(new))
+        if float(new) > 100 and float(new) < 100:
+            self.log(new)
             self.call_service('light/turn_off', entity_id='light.living_room')
 
     def evening(self, kwargs):
